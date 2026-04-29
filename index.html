@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Discovery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0f0e0d;
+    --paper: #faf8f4;
+    --cream: #f2ede4;
+    --warm: #c8a96e;
+    --muted: #8a8278;
+    --border: #ddd8cf;
+    --radius: 2px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; font-weight: 300; }
+  .header { background: var(--ink); color: var(--paper); padding: 80px 48px 64px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; top: 0; right: 0; width: 40%; height: 100%; background: linear-gradient(135deg, transparent 40%, rgba(200,169,110,0.12) 100%); pointer-events: none; }
+  .header-inner { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+  .eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+  .eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--warm); }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(52px, 8vw, 96px); font-weight: 300; line-height: 0.95; letter-spacing: -0.02em; color: var(--paper); margin-bottom: 32px; }
+  .header h1 em { font-style: italic; color: var(--warm); }
+  .header p { font-size: 15px; color: rgba(250,248,244,0.55); line-height: 1.7; max-width: 480px; font-weight: 300; }
+  .progress-bar { background: var(--ink); padding: 0 48px 32px; }
+  .progress-inner { max-width: 720px; margin: 0 auto; }
+  .progress-track { height: 2px; background: rgba(250,248,244,0.1); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--warm); border-radius: 2px; width: 0%; transition: width 0.4s ease; }
+  .progress-label { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+  .progress-label span { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,248,244,0.35); font-weight: 400; }
+  .progress-label strong { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warm); font-weight: 500; }
+  .main { max-width: 720px; margin: 0 auto; padding: 64px 48px 120px; }
+  .email-capture { background: var(--cream); border-radius: 4px; padding: 28px 32px; margin-bottom: 64px; border-left: 3px solid var(--warm); }
+  .email-capture label { display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .email-capture input { width: 100%; background: transparent; border: none; border-bottom: 1.5px solid var(--border); padding: 10px 0; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 300; color: var(--ink); outline: none; transition: border-color 0.2s ease; }
+  .email-capture input:focus { border-bottom-color: var(--ink); }
+  .email-capture input::placeholder { color: var(--border); font-style: italic; }
+  .email-capture p { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.6; }
+  .section { margin-bottom: 72px; opacity: 0; transform: translateY(20px); animation: fadeUp 0.5s ease forwards; }
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.3s; }
+  .section:nth-child(5) { animation-delay: 0.4s; }
+  .section:nth-child(6) { animation-delay: 0.5s; }
+  .section:nth-child(7) { animation-delay: 0.6s; }
+  .section:nth-child(8) { animation-delay: 0.7s; }
+  .section:nth-child(9) { animation-delay: 0.8s; }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  .section-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 36px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .section-num { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-weight: 400; color: var(--warm); letter-spacing: 0.1em; flex-shrink: 0; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 4vw, 30px); font-weight: 400; letter-spacing: -0.01em; }
+  .question { margin-bottom: 36px; }
+  .question label { display: block; font-size: 14px; font-weight: 400; line-height: 1.6; margin-bottom: 10px; }
+  .q-num { color: var(--warm); font-weight: 500; margin-right: 4px; }
+  input[type="text"], input[type="email"], textarea { width: 100%; background: transparent; border: none; border-bottom: 1.5px solid var(--border); border-radius: 0; padding: 10px 0; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 300; color: var(--ink); outline: none; transition: border-color 0.2s ease; -webkit-appearance: none; }
+  input[type="text"]:focus, input[type="email"]:focus, textarea:focus { border-bottom-color: var(--ink); }
+  input[type="text"]::placeholder, input[type="email"]::placeholder, textarea::placeholder { color: var(--border); font-style: italic; }
+  textarea { resize: none; min-height: 80px; line-height: 1.7; display: block; }
+  .word-count { text-align: right; font-size: 11px; color: var(--border); margin-top: 4px; letter-spacing: 0.05em; transition: color 0.2s; }
+  .word-count.active { color: var(--warm); }
+  .choices { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .choice { padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400; color: var(--muted); background: transparent; cursor: pointer; transition: all 0.18s ease; user-select: none; }
+  .choice:hover { border-color: var(--ink); color: var(--ink); }
+  .choice.selected { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .question.highlight { background: var(--cream); border-radius: 4px; padding: 28px 28px 24px; margin-left: -28px; margin-right: -28px; }
+  .question.highlight label { font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 3vw, 22px); font-weight: 400; font-style: italic; margin-bottom: 16px; }
+  .question.highlight textarea { min-height: 120px; font-size: 16px; }
+  .submit-section { margin-top: 80px; padding-top: 48px; border-top: 1px solid var(--border); text-align: center; }
+  .submit-note { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--muted); margin-bottom: 32px; line-height: 1.6; }
+  .btn-submit { display: inline-flex; align-items: center; gap: 12px; background: var(--ink); color: var(--paper); border: none; padding: 18px 48px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border-radius: var(--radius); transition: all 0.2s ease; }
+  .btn-submit:hover { background: var(--warm); transform: translateY(-1px); }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; background: var(--ink); }
+  .btn-submit svg { transition: transform 0.2s ease; }
+  .btn-submit:hover:not(:disabled) svg { transform: translateX(4px); }
+  .sending-msg { display: none; font-size: 13px; color: var(--muted); margin-top: 16px; letter-spacing: 0.05em; }
+  .sending-msg.visible { display: block; }
+  .success-msg { display: none; background: var(--cream); border-radius: 4px; padding: 40px; margin-top: 24px; }
+  .success-msg.visible { display: block; }
+  .success-msg h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; margin-bottom: 12px; }
+  .success-msg p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .error-msg { display: none; background: #fff0f0; border-left: 3px solid #c0392b; border-radius: 4px; padding: 20px 24px; margin-top: 24px; font-size: 14px; color: #c0392b; line-height: 1.6; }
+  .error-msg.visible { display: block; }
+  .footer { background: var(--ink); padding: 32px 48px; text-align: center; }
+  .footer p { font-size: 11px; color: rgba(250,248,244,0.25); letter-spacing: 0.1em; text-transform: uppercase; }
+  @media (max-width: 640px) {
+    .header { padding: 56px 24px 48px; }
+    .progress-bar { padding: 0 24px 24px; }
+    .main { padding: 48px 24px 80px; }
+    .email-capture { padding: 20px; }
+    .question.highlight { margin-left: -16px; margin-right: -16px; padding: 20px 20px 16px; }
+    .choices { gap: 6px; }
+    .choice { font-size: 12px; padding: 7px 14px; }
+    .btn-submit { width: 100%; justify-content: center; }
+  }
+  @media (max-width: 400px) { .header h1 { font-size: 44px; } }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-inner">
+    <div class="eyebrow">Brand Discovery</div>
+    <h1>Let's build<br><em>something</em><br>real.</h1>
+    <p>No wrong answers here. The more honest you are, the better what we build together will be. Fill in as much or as little as you'd like and we'll talk through the rest.</p>
+  </div>
+</div>
+<div class="progress-bar">
+  <div class="progress-inner">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label">
+      <span>Your progress</span>
+      <strong id="progressLabel">0 of 24 answered</strong>
+    </div>
+  </div>
+</div>
+<div class="main">
+  <div class="email-capture">
+    <label>Your Email Address</label>
+    <input type="email" id="submitterEmail" placeholder="so we can send you a copy of your answers">
+    <p>A copy of your responses will be sent to you the moment you submit. Nothing else, no spam.</p>
+  </div>
+  <div class="section">
+    <div class="section-header"><span class="section-num">01</span><h2 class="section-title">The Company</h2></div>
+    <div class="question">
+      <label><span class="q-num">1.</span> What's the full company name and is there a shorter version or nickname you go by?</label>
+      <input type="text" placeholder="e.g. Coleman and Co., goes by CC" data-q="1" data-label="Company name">
+    </div>
+    <div class="question">
+      <label><span class="q-num">2.</span> Give me the elevator pitch. What do you do, and who do you do it for?</label>
+      <textarea placeholder="Keep it loose, doesn't need to be perfect..." data-q="2" data-label="Elevator pitch"></textarea>
+      <div class="word-count" id="wc2">0 words</div>
+    </div>
+    <div class="question">
+      <label><span class="q-num">3.</span> Where are you at right now?</label>
+      <div class="choices">
+        <button type="button" class="choice" data-group="q3">Just starting out</button>
+        <button type="button" class="choice" data-group="q3">Already up and running</button>
+        <button type="button" class="choice" data-group="q3">Rebranding an existing business</button>
+      </div>
+    </div>
+    <div class="question">
+      <label><span class="q-num">4.</span> Where are you based and how far does the business reach?</label>
+      <div class="choices" style="margin-bottom:10px">
+        <button type="button" class="choice" data-group="q4reach">Local</button>
+        <button type="button" class="choice" data-group="q4reach">Regional</button>
+        <button type="button" class="choice" data-group="q4reach">National</button>
+        <button type="button" class="choice" data-group="q4reach">Global</button>
+      </div>
+      <input type="text" placeholder="City and state you're based in" data-q="4" data-label="Location">
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><span class="section-num">02</span><h2 class="section-title">The Customer</h2></div>
+    <div class="question">
+      <label><span class="q-num">5.</span> Who's your typical customer? Paint me a picture of them.</label>
+      <textarea placeholder="Age, lifestyle, profession, what they care about..." data-q="5" data-label="Typical customer"></textarea>
+      <div class="word-count" id="wc5">0 words</div>
+    </div>
+    <div class="question">
+      <label><span class="q-num">6.</span> What problem are you solving for them?</label>
+      <textarea placeholder="What were they struggling with before they found you?" data-q="6" data-label="Problem solved"></textarea>
+      <div class="word-count" id="wc6">0 words</div>
+    </div>
+    <div class="question">
+      <label><span class="q-num">7.</span> Why do they choose you over someone else?</label>
+      <textarea placeholder="What makes you the obvious choice?" data-q="7" data-label="Why choose you"></textarea>
+      <div class="word-count" id="wc7">0 words</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><span class="section-num">03</span><h2 class="section-title">The Feel</h2></div>
+    <div class="question">
+      <label><span class="q-num">8.</span> If you had to describe the vibe of your brand in 3 to 5 words, what would they be?</label>
+      <input type="text" placeholder="e.g. bold, trustworthy, approachable, premium..." data-q="8" data-label="Brand vibe">
+    </div>
+    <div class="question">
+      <label><span class="q-num">9.</span> Are there any brands you really like the look and feel of? Doesn't have to be your industry.</label>
+      <input type="text" placeholder="e.g. Patagonia, Apple, a local coffee shop you love..." data-q="9" data-label="Brand inspirations">
+    </div>
+    <div class="question">
+      <label><span class="q-num">10.</span> Anything you've seen that you absolutely hate and want to stay away from?</label>
+      <input type="text" placeholder="Styles, colors, vibes, brands..." data-q="10" data-label="What to avoid">
+    </div>
+    <div class="question">
+      <label><span class="q-num">11.</span> Where does the brand land on these?</label>
+      <div class="choices" style="margin-bottom:10px">
+        <button type="button" class="choice" data-group="q11a">Professional</button>
+        <button type="button" class="choice" data-group="q11a">Somewhere in between</button>
+        <button type="button" class="choice" data-group="q11a">Casual and approachable</button>
+      </div>
+      <div class="choices">
+        <button type="button" class="choice" data-group="q11b">Clean and minimal</button>
+        <button type="button" class="choice" data-group="q11b">Somewhere in between</button>
+        <button type="button" class="choice" data-group="q11b">Bold and expressive</button>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><span class="section-num">04</span><h2 class="section-title">The Look</h2></div>
+    <div class="question">
+      <label><span class="q-num">12.</span> Any colors you're drawn to or ones you absolutely can't stand?</label>
+      <input type="text" placeholder="Love blues, hate neon green, anything goes..." data-q="12" data-label="Color preferences">
+    </div>
+    <div class="question">
+      <label><span class="q-num">13.</span> Light or dark overall feel?</label>
+      <div class="choices">
+        <button type="button" class="choice" data-group="q13">Light and airy</button>
+        <button type="button" class="choice" data-group="q13">Dark and rich</button>
+        <button type="button" class="choice" data-group="q13">Depends on the context</button>
+      </div>
+    </div>
+    <div class="question">
+      <label><span class="q-num">14.</span> Do you have anything at all already? Even a rough logo or a color you've been using?</label>
+      <div class="choices" style="margin-bottom:10px">
+        <button type="button" class="choice" data-group="q14">Starting completely fresh</button>
+        <button type="button" class="choice" data-group="q14">Have something rough</button>
+        <button type="button" class="choice" data-group="q14">Have existing assets to keep</button>
+      </div>
+      <input type="text" placeholder="Describe what you have if anything..." data-q="14" data-label="Existing assets detail">
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><span class="section-num">05</span><h2 class="section-title">The Competition</h2></div>
+    <div class="question">
+      <label><span class="q-num">15.</span> Who are your main competitors?</label>
+      <input type="text" placeholder="Names, types of businesses, whoever you're up against..." data-q="15" data-label="Competitors">
+    </div>
+    <div class="question">
+      <label><span class="q-num">16.</span> What do you want people to feel sets you apart from them?</label>
+      <textarea placeholder="What do you do or offer that nobody else does?" data-q="16" data-label="Differentiator"></textarea>
+      <div class="word-count" id="wc16">0 words</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><span class="section-num">06</span><h2 class="section-title">Where It Lives</h2></div>
+    <div class="question">
+      <label><span class="q-num">17.</span> What do you need?</label>
+      <div class="choices">
+        <button type="button" class="choice" data-group="q17">Website</button>
+        <button type="button" class="choice" data-group="q17">Social media</button>
+        <button type="button" class="choice" data-group="q17">Both</button>
+        <button type="button" class="choice" data-group="q17">Not sure yet</button>
+      </div>
+    </div>
+    <div class="question">
+      <label><span class="q-num">18.</span> Any platforms you know you'll be active on?</label>
+      <div class="choices">
+        <button type="button" class="choice" data-group="q18" data-multi="true">Instagram</button>
+        <button type="button" class="choice" data-group="q18" data-multi="true">Facebook</button>
+        <button type="button" class="choice" data-group="q18" data-multi="true">LinkedIn</button>
+        <button type="button" class="choice" data-group="q18" data-multi="true">TikTok</button>
+        <button type="button" class="choice" data-group="q18" data-multi="true">X / Twitter</button>
+        <button type="button" class="choice" data-group="q18" data-multi="true">YouTube</button>
+        <button type="button" class="choice" data-group="q18" data-multi="true">Not sure</button>
+      </div>
+    </div>
+    <div class="question">
+      <label><span class="q-num">19.</span> Will you need anything physical?</label>
+      <div class="choices">
+        <button type="button" class="choice" data-group="q19" data-multi="true">Business cards</button>
+        <button type="button" class="choice" data-group="q19" data-multi="true">Signage</button>
+        <button type="button" class="choice" data-group="q19" data-multi="true">Uniforms or apparel</button>
+        <button type="button" class="choice" data-group="q19" data-multi="true">Printed materials</button>
+        <button type="button" class="choice" data-group="q19" data-multi="true">Nothing physical</button>
+      </div>
+    </div>
+    <div class="question">
+      <label><span class="q-num">20.</span> Do you have a domain name already?</label>
+      <div class="choices" style="margin-bottom:10px">
+        <button type="button" class="choice" data-group="q20">Yes</button>
+        <button type="button" class="choice" data-group="q20">No</button>
+        <button type="button" class="choice" data-group="q20">Not sure</button>
+      </div>
+      <input type="text" placeholder="If yes, what is it?" data-q="20" data-label="Domain name">
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><span class="section-num">07</span><h2 class="section-title">Practical Stuff</h2></div>
+    <div class="question">
+      <label><span class="q-num">21.</span> Is there a deadline driving this? A launch, an event, anything like that?</label>
+      <input type="text" placeholder="Hard deadline, rough target, or totally flexible..." data-q="21" data-label="Timeline">
+    </div>
+    <div class="question">
+      <label><span class="q-num">22.</span> Who else will have opinions on this besides you?</label>
+      <input type="text" placeholder="Just me, a few people, a whole team..." data-q="22" data-label="Decision makers">
+    </div>
+    <div class="question">
+      <label><span class="q-num">23.</span> After we hand everything off, who's going to be maintaining it day to day?</label>
+      <div class="choices">
+        <button type="button" class="choice" data-group="q23">Myself</button>
+        <button type="button" class="choice" data-group="q23">A team member</button>
+        <button type="button" class="choice" data-group="q23">An outside person</button>
+        <button type="button" class="choice" data-group="q23">Not sure yet</button>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><span class="section-num">08</span><h2 class="section-title">The Big One</h2></div>
+    <div class="question highlight">
+      <label><span class="q-num" style="font-family:'DM Sans',sans-serif;font-size:11px;font-style:normal">24.</span> When someone sees your brand for the first time, what's the one thing you want them to think or feel?</label>
+      <textarea placeholder="Take your time with this one..." data-q="24" data-label="First impression goal"></textarea>
+      <div class="word-count" id="wc24">0 words</div>
+    </div>
+  </div>
+  <div class="submit-section">
+    <p class="submit-note">Don't overthink it. There are no wrong answers here.</p>
+    <button type="button" class="btn-submit" id="submitBtn" onclick="handleSubmit()">
+      Submit My Answers
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <p class="sending-msg" id="sendingMsg">Sending your answers...</p>
+    <div class="success-msg" id="successMsg">
+      <h3>Thank you.</h3>
+      <p>Your answers are on their way. Check your inbox for a copy and we'll be in touch soon to talk through everything and get started.</p>
+    </div>
+    <div class="error-msg" id="errorMsg">
+      Something went wrong sending your answers. Please try again or reach out directly at cole.parks030@gmail.com
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <p>Brand Discovery &nbsp;&middot;&nbsp; Confidential</p>
+</div>
+<script>
+  emailjs.init('ufyqKSwAbLjNvhbct');
+  const SERVICE_ID = 'service_3xrx8b4';
+  const TEMPLATE_ID = 'template_equqk6j';
+  const MY_EMAIL = 'cole.parks030@gmail.com';
+  ['2','5','6','7','16','24'].forEach(id => {
+    const ta = document.querySelector(`textarea[data-q="${id}"]`);
+    const wc = document.getElementById(`wc${id}`);
+    if (!ta || !wc) return;
+    ta.addEventListener('input', () => {
+      const words = ta.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+      wc.textContent = `${words} word${words !== 1 ? 's' : ''}`;
+      wc.classList.toggle('active', words > 0);
+      updateProgress();
+    });
+  });
+  document.querySelectorAll('input[type="text"], input[type="email"]').forEach(i => i.addEventListener('input', updateProgress));
+  document.querySelectorAll('.choice').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.group;
+      const isMulti = btn.dataset.multi === 'true';
+      if (isMulti) {
+        btn.classList.toggle('selected');
+      } else {
+        document.querySelectorAll(`[data-group="${group}"]`).forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      }
+      updateProgress();
+    });
+  });
+  document.querySelectorAll('textarea').forEach(ta => {
+    ta.addEventListener('input', () => { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; });
+  });
+  function updateProgress() {
+    let answered = 0;
+    document.querySelectorAll('input[type="text"][data-q]').forEach(i => { if (i.value.trim().length > 0) answered++; });
+    document.querySelectorAll('textarea[data-q]').forEach(ta => { if (ta.value.trim().length > 0) answered++; });
+    const groups = new Set();
+    document.querySelectorAll('.choice.selected').forEach(btn => groups.add(btn.dataset.group));
+    answered += groups.size;
+    const pct = Math.min(100, Math.round((answered / 24) * 100));
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = `${Math.min(answered, 24)} of 24 answered`;
+  }
+  function collectAnswers() {
+    const t = {};
+    document.querySelectorAll('input[type="text"][data-q], textarea[data-q]').forEach(el => {
+      t[el.dataset.q] = el.value.trim() || 'Not answered';
+    });
+    const c = {};
+    document.querySelectorAll('.choice.selected').forEach(btn => {
+      const g = btn.dataset.group;
+      if (!c[g]) c[g] = [];
+      c[g].push(btn.textContent.trim());
+    });
+    const get = (key) => c[key]?.join(', ') || 'Not answered';
+    return [
+      'BRAND DISCOVERY RESPONSES',
+      '========================================',
+      '',
+      '01 -- THE COMPANY',
+      `Company name: ${t['1']}`,
+      `Elevator pitch: ${t['2']}`,
+      `Stage: ${get('q3')}`,
+      `Reach: ${get('q4reach')}`,
+      `Location: ${t['4']}`,
+      '',
+      '02 -- THE CUSTOMER',
+      `Typical customer: ${t['5']}`,
+      `Problem being solved: ${t['6']}`,
+      `Why choose them: ${t['7']}`,
+      '',
+      '03 -- THE FEEL',
+      `Brand vibe: ${t['8']}`,
+      `Brand inspirations: ${t['9']}`,
+      `What to avoid: ${t['10']}`,
+      `Tone: ${get('q11a')}`,
+      `Style: ${get('q11b')}`,
+      '',
+      '04 -- THE LOOK',
+      `Color preferences: ${t['12']}`,
+      `Light or dark: ${get('q13')}`,
+      `Existing assets: ${get('q14')}`,
+      `Existing assets detail: ${t['14']}`,
+      '',
+      '05 -- THE COMPETITION',
+      `Competitors: ${t['15']}`,
+      `Differentiator: ${t['16']}`,
+      '',
+      '06 -- WHERE IT LIVES',
+      `Digital needs: ${get('q17')}`,
+      `Platforms: ${get('q18')}`,
+      `Physical materials: ${get('q19')}`,
+      `Domain: ${get('q20')}`,
+      `Domain name: ${t['20']}`,
+      '',
+      '07 -- PRACTICAL STUFF',
+      `Timeline: ${t['21']}`,
+      `Decision makers: ${t['22']}`,
+      `Maintenance: ${get('q23')}`,
+      '',
+      '08 -- THE BIG ONE',
+      `First impression goal: ${t['24']}`,
+    ].join('\n');
+  }
+  async function handleSubmit() {
+    const emailInput = document.getElementById('submitterEmail');
+    const submitterEmail = emailInput.value.trim();
+    if (!submitterEmail || !submitterEmail.includes('@')) {
+      emailInput.style.borderBottomColor = '#c0392b';
+      emailInput.focus();
+      emailInput.placeholder = 'Please enter your email address before submitting';
+      return;
+    }
+    const btn = document.getElementById('submitBtn');
+    const sendingMsg = document.getElementById('sendingMsg');
+    const successMsg = document.getElementById('successMsg');
+    const errorMsg = document.getElementById('errorMsg');
+    btn.disabled = true;
+    sendingMsg.classList.add('visible');
+    errorMsg.classList.remove('visible');
+    const answers = collectAnswers();
+    const clientName = document.querySelector('input[data-q="1"]')?.value.trim() || 'Your client';
+    try {
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+        to_name: 'Coleman',
+        from_name: clientName,
+        from_email: submitterEmail,
+        reply_to: submitterEmail,
+        to_email: MY_EMAIL,
+        message: answers,
+        subject: `Brand Discovery Responses from ${clientName}`
+      });
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+        to_name: clientName,
+        from_name: 'Coleman Parks',
+        from_email: MY_EMAIL,
+        reply_to: MY_EMAIL,
+        to_email: submitterEmail,
+        message: `Thanks for filling this out. Here is a copy of your answers for your records.\n\n${answers}`,
+        subject: 'Your Brand Discovery Responses'
+      });
+      btn.style.display = 'none';
+      sendingMsg.classList.remove('visible');
+      successMsg.classList.add('visible');
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    } catch (err) {
+      console.error('EmailJS error:', err);
+      btn.disabled = false;
+      sendingMsg.classList.remove('visible');
+      errorMsg.classList.add('visible');
+    }
+  }
+  updateProgress();
+</script>
+</body>
+</html>
