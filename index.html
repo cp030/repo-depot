@@ -57,7 +57,7 @@ a:hover{color:var(--cyan)}
 /* STEPS */
 .steps{display:flex;flex-direction:column;gap:12px;margin:16px 0}
 .step{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;background:var(--panel);border:1px solid var(--border);border-radius:4px}
-.step-num{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font-family:var(--mono);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#eef2ff;font-family:var(--mono);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .step-body h4{font-size:14px;font-weight:500;color:var(--white);margin-bottom:4px}
 .step-body p{font-size:13px;color:var(--muted);line-height:1.6;font-weight:300}
 .step-body p strong{color:var(--white);font-weight:500}
@@ -103,6 +103,11 @@ tr:nth-child(even) td{background:rgba(255,255,255,0.015)}
 /* DIVIDER */
 hr{border:none;border-top:1px solid var(--border);margin:40px 0}
 
+/* REDUCED MOTION */
+@media(prefers-reduced-motion:reduce){
+*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+
 /* RESPONSIVE */
 @media(max-width:900px){
 .sidebar{display:none}
@@ -117,6 +122,7 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0}
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
+<nav aria-label="Playbook navigation">
   <div class="sidebar-logo">
     <div class="sidebar-logo-mark">Coleman Parks</div>
     <div class="sidebar-logo-sub">Dev + Brand Playbook</div>
@@ -152,6 +158,8 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0}
   <a href="#claude-cowork" class="nav-link">Claude Cowork</a>
   <a href="#emailjs" class="nav-link">EmailJS</a>
   <a href="#prompts" class="nav-link">Prompt Library</a>
+  <a href="#design-tools" class="nav-link">Design Intelligence</a>
+</nav>
 </aside>
 
 <!-- MAIN -->
@@ -167,6 +175,7 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0}
   </div>
 
   <!-- CONTENT -->
+  <main id="main">
   <div class="content">
 
     <!-- ═══════════ TOOLS OVERVIEW ═══════════ -->
@@ -1040,13 +1049,109 @@ Then show how the chosen direction looks in dark and light versions."</div>
       </div>
     </div>
 
-    <!-- FOOTER -->
-    <div style="margin-top:80px;padding-top:32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding-bottom:40px">
-      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:var(--dim)">Coleman Parks · Dev and Brand Playbook · 2026</div>
-      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:var(--dim)">Built with Claude</div>
+    <!-- ═══════════ DESIGN INTELLIGENCE TOOLS ═══════════ -->
+    <div class="chapter" id="design-tools">
+      <div class="chapter-num">19</div>
+      <h2 class="chapter-h">Design Intelligence Tools</h2>
+      <p class="chapter-sub">Claude Code skills and CLI tools that eliminate AI slop, enforce design standards, and give Claude actual design thinking — not just layout generation.</p>
+
+      <div class="section">
+        <div class="section-h">One-Time Mac Setup</div>
+        <p class="section-p">Run this once. It installs all Claude Code skills and the Impeccable CLI in one shot.</p>
+        <div class="code"><span class="cmd">./setup-mac.sh</span></div>
+        <p class="section-p">Or install skills individually:</p>
+        <div class="code"><span class="comment"># Anthropic's official frontend design skill</span>
+<span class="cmd">npx skills add anthropics/skills@frontend-design</span>
+
+<span class="comment"># UI/UX intelligence — visual hierarchy, colour psychology, 50+ styles</span>
+<span class="cmd">npx skills add nextlevelbuilder/ui-ux-pro-max-skill@ui-ux-pro-max</span>
+
+<span class="comment"># Vercel web design guidelines — 100+ rules</span>
+<span class="cmd">npx skills add vercel-labs/agent-skills@web-design-guidelines</span>
+
+<span class="comment"># WCAG accessibility baked in from day one</span>
+<span class="cmd">npx skills add supercent-io/skills-template@web-accessibility</span>
+
+<span class="comment"># Accessible component patterns</span>
+<span class="cmd">npx skills add giuseppe-trisciuoglio/developer-kit@shadcn-ui</span>
+
+<span class="comment"># Impeccable — anti-AI-slop Claude Code skill</span>
+<span class="cmd">npx skills add pbakaus/impeccable</span>
+
+<span class="comment"># Impeccable CLI — run locally to detect design issues</span>
+<span class="cmd">npm install -g impeccable</span></div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">The Tools and What They Do</div>
+        <table>
+          <tr><th>Tool</th><th>Type</th><th>What It Does</th></tr>
+          <tr><td>Impeccable</td><td>CLI + Claude skill</td><td>Detects 27 AI-slop anti-patterns before they ship: bounce easing, gradient text, nested cards, side-stripe borders, dark glows, purple gradients</td></tr>
+          <tr><td>frontend-design</td><td>Claude Code skill</td><td>Design tokens, responsive layouts, accessibility built into every component Claude generates</td></tr>
+          <tr><td>UI-UX-Pro-Max</td><td>Claude Code skill</td><td>Gives Claude real design thinking — visual hierarchy, colour psychology, interaction patterns, the why behind every UI decision</td></tr>
+          <tr><td>web-design-guidelines</td><td>Claude Code skill</td><td>100+ rules always on: spacing, typography, hierarchy, a11y, forms, animations, dark mode, touch — flags issues before they reach users</td></tr>
+          <tr><td>web-accessibility</td><td>Claude Code skill</td><td>WCAG standards from day one — contrast, keyboard nav, semantic structure — baked in, not bolted on</td></tr>
+          <tr><td>shadcn-ui</td><td>Claude Code skill</td><td>High-quality accessible UI patterns so Claude stops designing the same components twice</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Impeccable Commands (After Skill Install)</div>
+        <p class="section-p">Type these inside Claude Code during any website build:</p>
+        <table>
+          <tr><th>Command</th><th>What It Does</th><th>When to Use</th></tr>
+          <tr><td>/impeccable audit</td><td>Full technical QA — a11y, performance, responsive</td><td>Before every push</td></tr>
+          <tr><td>/impeccable polish</td><td>Final quality pass — catches everything subtle</td><td>Final step before client delivery</td></tr>
+          <tr><td>/impeccable critique</td><td>UX review with heuristic scoring</td><td>Mid-build design review</td></tr>
+          <tr><td>/impeccable typeset</td><td>Fix typography hierarchy, scale, line length</td><td>When type feels flat or hard to read</td></tr>
+          <tr><td>/impeccable colorize</td><td>Add strategic color to monochromatic designs</td><td>When design feels dull</td></tr>
+          <tr><td>/impeccable animate</td><td>Add purposeful motion with correct easing</td><td>When adding scroll reveals and transitions</td></tr>
+          <tr><td>/impeccable layout</td><td>Fix spacing, rhythm, padding</td><td>When layout feels cramped or monotonous</td></tr>
+          <tr><td>/impeccable bolder</td><td>Amplify bland, generic-looking designs</td><td>When design is too safe</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Design Quality Gate — Run Before Every Push</div>
+        <p class="section-p">Built into the repo. Runs impeccable plus a manual checklist covering AI slop, accessibility, SEO, and performance.</p>
+        <div class="code"><span class="comment"># Check a single file</span>
+<span class="cmd">./check.sh slug/index.html</span>
+
+<span class="comment"># Check an entire build folder</span>
+<span class="cmd">./check.sh spndt/</span></div>
+        <div class="info">
+          <div class="info-label">What It Checks</div>
+          <p><strong>AI Slop:</strong> bounce easing, gradient text, side-stripe borders, pure black/white, layout property animations<br>
+          <strong>Accessibility:</strong> skip link, main landmark, H1, image alt text, form labels, aria attributes<br>
+          <strong>SEO:</strong> title, meta description, viewport, og tags, favicon<br>
+          <strong>Performance:</strong> lazy loading, Google Fonts display=swap<br>
+          <strong>Structure:</strong> main, nav, footer, inline style count</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">The Design Laws Baked Into This Repo</div>
+        <p class="section-p">CLAUDE.md at the root of this repo contains the full design ruleset. Every Claude Code session here automatically follows these laws — no prompting needed.</p>
+        <table>
+          <tr><th>Rule Category</th><th>Key Laws</th></tr>
+          <tr><td>Color</td><td>Never pure black or white. Always tint toward brand. No gradient text. No purple gradients.</td></tr>
+          <tr><td>Typography</td><td>65–75 char line length max. 1.25 minimum ratio between type scale steps. Never Arial or system-ui.</td></tr>
+          <tr><td>Layout</td><td>Vary spacing for rhythm. Cards are lazy defaults. Nested cards are always wrong.</td></tr>
+          <tr><td>Motion</td><td>Never animate layout properties. Use ease-out-quart curves. No bounce or elastic easing.</td></tr>
+          <tr><td>Banned</td><td>Side-stripe borders. Glassmorphism as default. Identical card grids. Hero-metric template. Modal-first design.</td></tr>
+          <tr><td>Accessibility</td><td>Skip link. WCAG AA contrast. All images alt text. All inputs labeled. Visible focus states.</td></tr>
+        </table>
+      </div>
     </div>
 
+    <!-- FOOTER -->
+    <footer style="margin-top:80px;padding-top:32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding-bottom:40px">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:var(--dim)">Coleman Parks · Dev and Brand Playbook · 2026</div>
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:var(--dim)">Built with Claude</div>
+    </footer>
+
   </div>
+  </main>
 </div>
 
 <script>
