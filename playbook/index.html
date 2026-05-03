@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coleman Parks — Dev and Brand Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--dark:#0a0c14;--panel:#0f1120;--border:rgba(255,255,255,0.07);--blue:#1A6BFF;--cyan:#00C8FF;--gold:#C8A96E;--white:#eef2ff;--muted:rgba(238,242,255,0.55);--dim:rgba(238,242,255,0.28);--ff:'DM Sans',sans-serif;--mono:'DM Mono',monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff);background:var(--dark);color:var(--white);line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+a:hover{color:var(--cyan)}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;width:260px;height:100vh;background:var(--panel);border-right:1px solid var(--border);overflow-y:auto;padding:28px 0;z-index:100}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:2px}
+.sidebar-logo{padding:0 24px 24px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.sidebar-logo-mark{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--white);letter-spacing:0.06em}
+.sidebar-logo-sub{font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-top:3px}
+.nav-section{font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--dim);padding:12px 24px 6px}
+.nav-link{display:block;font-size:12px;color:var(--muted);padding:7px 24px;transition:all 0.15s;border-left:2px solid transparent}
+.nav-link:hover,.nav-link.active{color:var(--white);border-left-color:var(--blue);background:rgba(26,107,255,0.06)}
+
+/* MAIN */
+.main{margin-left:260px;min-height:100vh}
+
+/* HERO */
+.hero{background:var(--dark);padding:72px 64px 56px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(26,107,255,0.025) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(26,107,255,0.025) 40px)}
+.hero-inner{position:relative;z-index:1;max-width:820px}
+.hero-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.hero-eyebrow::before{content:'';display:block;width:20px;height:1px;background:var(--gold)}
+.hero-h{font-size:clamp(36px,4vw,60px);font-weight:700;letter-spacing:-0.025em;line-height:1.05;color:var(--white);margin-bottom:16px}
+.hero-h span{color:var(--blue)}
+.hero-p{font-size:16px;color:var(--muted);line-height:1.75;max-width:600px}
+
+/* CONTENT */
+.content{padding:0 64px 100px;max-width:960px}
+
+/* CHAPTER */
+.chapter{padding-top:72px;scroll-margin-top:20px}
+.chapter-num{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.chapter-num::before{content:'';display:block;width:16px;height:1px;background:var(--blue)}
+.chapter-h{font-size:clamp(26px,3vw,38px);font-weight:700;letter-spacing:-0.02em;color:var(--white);margin-bottom:8px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.chapter-sub{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:40px;font-weight:300;max-width:680px}
+
+/* SECTION */
+.section{margin-bottom:48px}
+.section-h{font-size:16px;font-weight:600;color:var(--white);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.section-h::before{content:'';display:block;width:3px;height:18px;background:var(--blue);border-radius:2px;flex-shrink:0}
+.section-p{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:12px;font-weight:300}
+.section-p strong{color:var(--white);font-weight:500}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+.step{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;background:var(--panel);border:1px solid var(--border);border-radius:4px}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#eef2ff;font-family:var(--mono);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-body h4{font-size:14px;font-weight:500;color:var(--white);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--muted);line-height:1.6;font-weight:300}
+.step-body p strong{color:var(--white);font-weight:500}
+
+/* CODE */
+.code{background:#060810;border:1px solid var(--border);border-radius:4px;padding:14px 18px;font-family:var(--mono);font-size:12px;color:#7ec8a4;line-height:1.7;margin:12px 0;position:relative;overflow-x:auto}
+.code-label{font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.code .comment{color:rgba(255,255,255,0.2)}
+.code .cmd{color:var(--cyan)}
+.code .flag{color:var(--gold)}
+
+/* INFO BOX */
+.info{border-left:3px solid var(--blue);background:rgba(26,107,255,0.07);padding:14px 18px;border-radius:0 4px 4px 0;margin:16px 0}
+.info p{font-size:13px;color:var(--muted);margin:0;line-height:1.65}
+.info p strong{color:var(--white)}
+.info-label{font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+
+.warn{border-left:3px solid var(--gold);background:rgba(200,169,110,0.07);padding:14px 18px;border-radius:0 4px 4px 0;margin:16px 0}
+.warn p{font-size:13px;color:var(--muted);margin:0;line-height:1.65}
+.warn-label{font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+th{background:var(--panel);color:var(--white);padding:10px 14px;text-align:left;font-weight:500;font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid var(--border)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:rgba(255,255,255,0.015)}
+
+/* TAG */
+.tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;border-radius:2px;margin:2px}
+.tag-blue{background:rgba(26,107,255,0.15);color:var(--blue)}
+.tag-gold{background:rgba(200,169,110,0.12);color:var(--gold)}
+.tag-green{background:rgba(34,197,94,0.1);color:#4ade80}
+
+/* TOOL CARD */
+.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.tool-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:18px 20px;transition:border-color 0.2s}
+.tool-card:hover{border-color:rgba(26,107,255,0.35)}
+.tool-card h4{font-size:14px;font-weight:500;color:var(--white);margin-bottom:6px}
+.tool-card p{font-size:12px;color:var(--muted);line-height:1.6;font-weight:300}
+.tool-card .tool-tag{font-family:var(--mono);font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+
+/* DIVIDER */
+hr{border:none;border-top:1px solid var(--border);margin:40px 0}
+
+/* REDUCED MOTION */
+@media(prefers-reduced-motion:reduce){
+*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+.sidebar{display:none}
+.main{margin-left:0}
+.hero{padding:48px 24px 40px}
+.content{padding:0 24px 80px}
+.tool-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+<nav aria-label="Playbook navigation">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-mark">Coleman Parks</div>
+    <div class="sidebar-logo-sub">Dev + Brand Playbook</div>
+  </div>
+
+  <div class="nav-section">Setup</div>
+  <a href="#tools" class="nav-link">Tools Overview</a>
+  <a href="#mac-setup" class="nav-link">Mac Setup</a>
+  <a href="#git-setup" class="nav-link">Git and GitHub</a>
+  <a href="#claude-code" class="nav-link">Claude Code</a>
+  <a href="#vscode" class="nav-link">VS Code</a>
+
+  <div class="nav-section">Website Building</div>
+  <a href="#website-workflow" class="nav-link">Website Workflow</a>
+  <a href="#html-structure" class="nav-link">HTML Structure</a>
+  <a href="#css-system" class="nav-link">CSS System</a>
+  <a href="#animations" class="nav-link">Animations and Motion</a>
+  <a href="#forms" class="nav-link">Contact Forms</a>
+  <a href="#deploy" class="nav-link">Deploying to GitHub</a>
+  <a href="#domain" class="nav-link">Custom Domain</a>
+
+  <div class="nav-section">Brand Building</div>
+  <a href="#brand-overview" class="nav-link">Brand Process Overview</a>
+  <a href="#client-intake" class="nav-link">Client Intake</a>
+  <a href="#brand-brief" class="nav-link">Brand Brief</a>
+  <a href="#visual-identity" class="nav-link">Visual Identity</a>
+  <a href="#brand-assets" class="nav-link">Brand Assets</a>
+  <a href="#website-build" class="nav-link">Website Build</a>
+  <a href="#launch" class="nav-link">Review and Launch</a>
+
+  <div class="nav-section">Tools Deep Dive</div>
+  <a href="#claude-design" class="nav-link">Claude Design</a>
+  <a href="#claude-cowork" class="nav-link">Claude Cowork</a>
+  <a href="#emailjs" class="nav-link">EmailJS</a>
+  <a href="#prompts" class="nav-link">Prompt Library</a>
+  <a href="#design-tools" class="nav-link">Design Intelligence</a>
+</nav>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Coleman Parks</div>
+      <h1 class="hero-h">Website Development<br>and <span>Brand Building</span><br>Playbook</h1>
+      <p class="hero-p">Everything pulled from our conversations — setup instructions, website building steps, brand creation workflow, prompts, and deployment. From zero to a live website and complete brand identity.</p>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <main id="main">
+  <div class="content">
+
+    <!-- ═══════════ TOOLS OVERVIEW ═══════════ -->
+    <div class="chapter" id="tools">
+      <div class="chapter-num">01</div>
+      <h2 class="chapter-h">Tools Overview</h2>
+      <p class="chapter-sub">Everything you need to build websites and brands from scratch. Each tool has a specific role — understand the system before diving in.</p>
+
+      <div class="tool-grid">
+        <div class="tool-card">
+          <div class="tool-tag">Code Editor</div>
+          <h4>VS Code</h4>
+          <p>Where you write and edit code. Free. Download from code.visualstudio.com. Has a built-in terminal so you can do everything in one window.</p>
+        </div>
+        <div class="tool-card">
+          <div class="tool-tag">AI Code Assistant</div>
+          <h4>Claude Code</h4>
+          <p>AI that works inside your codebase from the terminal. Edits files, fixes bugs, builds features, runs commands. Installed via terminal on Mac.</p>
+        </div>
+        <div class="tool-card">
+          <div class="tool-tag">Version Control</div>
+          <h4>Git + GitHub</h4>
+          <p>Git tracks changes to your code. GitHub stores it online. Together they let you deploy websites for free using GitHub Pages.</p>
+        </div>
+        <div class="tool-card">
+          <div class="tool-tag">Visual Design</div>
+          <h4>Claude Design</h4>
+          <p>Builds visual brand assets, prototypes, logos, and mockups. Lives inside claude.ai — click the palette icon in the left sidebar.</p>
+        </div>
+        <div class="tool-card">
+          <div class="tool-tag">File Management</div>
+          <h4>Claude Cowork</h4>
+          <p>Desktop tool for automating file organization, asset resizing, and task management. Handles the non-code side of brand delivery.</p>
+        </div>
+        <div class="tool-card">
+          <div class="tool-tag">Planning</div>
+          <h4>Claude.ai (this chat)</h4>
+          <p>Planning, writing, prompting, reviewing. Generate website HTML here then paste into VS Code or the Brand Studio artifact to preview.</p>
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="info-label">The Workflow in One Line</div>
+        <p><strong>Claude.ai</strong> plans and generates → <strong>Claude Code</strong> in VS Code builds and edits → <strong>Git pushes</strong> to GitHub → <strong>GitHub Pages</strong> makes it live → <strong>Claude Design</strong> handles visuals</p>
+      </div>
+    </div>
+
+    <!-- ═══════════ MAC SETUP ═══════════ -->
+    <div class="chapter" id="mac-setup">
+      <div class="chapter-num">02</div>
+      <h2 class="chapter-h">Mac Setup — From Zero</h2>
+      <p class="chapter-sub">Do these in order. Each step depends on the one before it.</p>
+
+      <div class="section">
+        <div class="section-h">Step 1 — Install Git</div>
+        <p class="section-p">Open <strong>Terminal</strong> (Command + Space, type Terminal, hit Enter) and run:</p>
+        <div class="code-label">Check if Git is already installed</div>
+        <div class="code"><span class="cmd">git --version</span></div>
+        <p class="section-p">If you get a version number, Git is already installed. If you get an error, type <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:2px;font-family:var(--mono);font-size:12px">git</code> and macOS will prompt you to install it automatically via Xcode Command Line Tools. Click Install and wait.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Step 2 — Install VS Code</div>
+        <p class="section-p">Download from <strong>code.visualstudio.com</strong>. Drag it to your Applications folder. Open it.</p>
+        <p class="section-p">Then register the <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:2px;font-family:var(--mono);font-size:12px">code</code> command so you can open folders from Terminal:</p>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Open VS Code</h4><p>Launch it from your Applications folder.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Open Command Palette</h4><p>Press <strong>Command + Shift + P</strong></p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Type and select</h4><p><strong>Shell Command: Install 'code' command in PATH</strong> then hit Enter</p></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Test it</h4><p>Open Terminal and type <strong>code .</strong> — VS Code should open your current folder</p></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Step 3 — Install Claude Code</div>
+        <p class="section-p">In Terminal, paste and run:</p>
+        <div class="code"><span class="cmd">curl -fsSL https://claude.ai/install.sh | sh</span></div>
+        <p class="section-p">Then verify it installed correctly:</p>
+        <div class="code"><span class="cmd">claude doctor</span></div>
+        <p class="section-p">You should see green checkmarks. Then log in:</p>
+        <div class="code"><span class="cmd">claude</span></div>
+        <p class="section-p">It will prompt you to log in with your Claude account in the browser on first launch. After that, credentials are saved.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Step 4 — Install GitHub CLI (for easy authentication)</div>
+        <p class="section-p">First install Homebrew (the Mac package manager):</p>
+        <div class="code"><span class="cmd">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span></div>
+        <p class="section-p">It will ask for your Mac password — type it and hit Enter. Nothing shows while you type, that is normal. Then:</p>
+        <div class="code"><span class="cmd">brew install gh</span>
+<span class="cmd">gh auth login</span></div>
+        <p class="section-p">Follow the prompts — select GitHub.com, HTTPS, and authenticate in browser. Your Mac password goes in the browser, not Terminal.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════ GIT AND GITHUB ═══════════ -->
+    <div class="chapter" id="git-setup">
+      <div class="chapter-num">03</div>
+      <h2 class="chapter-h">Git and GitHub</h2>
+      <p class="chapter-sub">Git is the software. GitHub is where it lives online. VS Code is the window you type in. None of these are interchangeable — they each do something different.</p>
+
+      <div class="section">
+        <div class="section-h">What Each Thing Actually Is</div>
+        <table>
+          <tr><th>Term</th><th>What It Is</th><th>Analogy</th></tr>
+          <tr><td>Git</td><td>Version control software installed on your Mac</td><td>The engine</td></tr>
+          <tr><td>GitHub</td><td>Website that hosts your code online</td><td>The parking lot</td></tr>
+          <tr><td>Repository (repo)</td><td>A folder that Git is tracking</td><td>A project folder</td></tr>
+          <tr><td>Commit</td><td>A saved snapshot of your changes</td><td>Hitting Save + describing what changed</td></tr>
+          <tr><td>Push</td><td>Sending your commits from Mac to GitHub</td><td>Uploading</td></tr>
+          <tr><td>Clone</td><td>Downloading a repo from GitHub to your Mac</td><td>Downloading</td></tr>
+          <tr><td>GitHub Pages</td><td>Free hosting that turns your repo into a live website</td><td>Free web server</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Create a New Project from Scratch</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Create repo on GitHub</h4><p>Go to github.com, click New Repository, name it, set to Public, click Create</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Clone it to your Mac</h4>
+            <div class="code" style="margin:6px 0"><span class="cmd">gh repo clone YOUR-USERNAME/YOUR-REPO-NAME</span></div>
+          </div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Navigate into it</h4>
+            <div class="code" style="margin:6px 0"><span class="cmd">cd YOUR-REPO-NAME</span></div>
+          </div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Open in VS Code</h4>
+            <div class="code" style="margin:6px 0"><span class="cmd">code .</span></div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">The 3 Commands You Use Every Time</div>
+        <div class="code"><span class="comment"># Stage all changes</span>
+<span class="cmd">git add .</span>
+
+<span class="comment"># Save a snapshot with a message</span>
+<span class="cmd">git commit -m "describe what you changed"</span>
+
+<span class="comment"># Send it to GitHub</span>
+<span class="cmd">git push</span></div>
+
+        <div class="warn">
+          <div class="warn-label">Common Confusion</div>
+          <p>Git is not GitHub. GitHub Pages is not GitHub. VS Code and Terminal are not Git. They are all separate things that work together. You never "open Git" — you run git commands inside Terminal or the VS Code terminal.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Upload a File from Your Phone (No Terminal Needed)</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Go to your repo on GitHub</h4><p>github.com/YOUR-USERNAME/YOUR-REPO</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Tap Add File → Create new file</h4><p>In the filename box type: <strong>foldername/index.html</strong> — the slash creates the folder automatically</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Paste your HTML in the content area</h4><p>Tap into the large empty box below the filename and paste</p></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Tap Commit changes (green button)</h4><p>The file is now live on GitHub</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ CLAUDE CODE ═══════════ -->
+    <div class="chapter" id="claude-code">
+      <div class="chapter-num">04</div>
+      <h2 class="chapter-h">Claude Code</h2>
+      <p class="chapter-sub">Claude Code is an AI that lives in your terminal and works directly inside your codebase. You tell it what to build in plain English and it writes the code.</p>
+
+      <div class="section">
+        <div class="section-h">Starting a Session</div>
+        <div class="code"><span class="comment"># Navigate to your project folder first</span>
+<span class="cmd">cd your-project-folder</span>
+
+<span class="comment"># Launch Claude Code</span>
+<span class="cmd">claude</span>
+
+<span class="comment"># First time in a new project — run this to set it up</span>
+<span class="cmd">/init</span></div>
+        <p class="section-p">The <strong>/init</strong> command generates a CLAUDE.md file — a project context file that tells Claude your tech stack, commands, and conventions. Run it once per project, then commit it to your repo.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Key Commands Inside Claude Code</div>
+        <table>
+          <tr><th>Command</th><th>What It Does</th></tr>
+          <tr><td>/init</td><td>Set up a new project — generates CLAUDE.md</td></tr>
+          <tr><td>/help</td><td>See all available commands</td></tr>
+          <tr><td>/plan</td><td>Claude reasons through a task before touching any files — use for anything touching multiple files</td></tr>
+          <tr><td>/model</td><td>Switch between Sonnet (fast, everyday) and Opus (complex refactors)</td></tr>
+          <tr><td>/clear</td><td>Reset the conversation context</td></tr>
+          <tr><td>/feedback</td><td>Report an issue to Anthropic</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Example Prompts That Work Well</div>
+        <div class="code"><span class="comment"># Explain a bug</span>
+"This nav link is not scrolling to the right section on mobile. Fix it."
+
+<span class="comment"># Build something new</span>
+"Add a contact form to contact.html that submits via EmailJS with these credentials: [paste credentials]"
+
+<span class="comment"># Improve existing code</span>
+"Split this single-file website into proper files: HTML, CSS, and JS. Keep all functionality."
+
+<span class="comment"># Ask for a review</span>
+"Review this page for mobile responsiveness, accessibility, and SEO. Fix everything you find."</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">The VS Code + Claude Code Setup</div>
+        <p class="section-p">The cleanest way to work: Open your project in VS Code with <strong>code your-project</strong>, then open the VS Code terminal with <strong>Control + `</strong> (backtick). Run <strong>claude</strong> in that terminal. You write code in the editor on top, Claude Code runs in the terminal below — all in one window.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════ WEBSITE WORKFLOW ═══════════ -->
+    <div class="chapter" id="website-workflow">
+      <div class="chapter-num">05</div>
+      <h2 class="chapter-h">Website Building Workflow</h2>
+      <p class="chapter-sub">The full process from blank folder to live website. Follow these stages in order.</p>
+
+      <div class="section">
+        <div class="section-h">Stage 1 — Plan the site in Claude.ai</div>
+        <p class="section-p">Before writing a line of code, build the brief. Paste your client intake form responses here and ask:</p>
+        <div class="code">"Generate a complete website for this brand. Return only raw HTML starting with &lt;!DOCTYPE html&gt;. Include: hero, about, services (3 items), why us, contact form with EmailJS, footer. Mobile-first responsive at 480px, 768px, 1024px. Use these exact colors and fonts: [paste brand brief]."</div>
+        <p class="section-p">Claude generates the full HTML here in the chat. Copy it.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Stage 2 — Preview in Brand Studio artifact</div>
+        <p class="section-p">Paste the HTML into the Brand Studio artifact (BrandStudio.jsx in your Claude Project). Hit Load Preview. Review every section. Edit in the HTML tab if needed.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Stage 3 — Push to Claude Code</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Run the new client setup script</h4>
+            <div class="code" style="margin:6px 0"><span class="cmd">./new-client.sh "Client Name" "client-short-name"</span></div>
+            <p>This creates the full folder structure automatically</p>
+          </div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Paste the HTML into the website folder</h4><p>Replace the index.html in Clients/client-short-name/06_Website/ with your exported HTML</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Launch Claude Code and split the file</h4>
+            <div class="code" style="margin:6px 0"><span class="cmd">cd Clients/client-short-name/06_Website
+claude</span></div>
+            <p>Then tell Claude Code: <strong>"Split this single-file website into index.html, css/style.css, css/responsive.css, js/main.js, and js/form.js. Keep all functionality identical."</strong></p>
+          </div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Wire up the contact form</h4><p>Tell Claude Code: <strong>"Wire up the contact form using EmailJS with Public Key [key], Service ID [id], Template ID [id]. Validate all fields before submitting. Show sending state, success state, and error state."</strong></p></div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-body"><h4>Run the QA pass</h4><p>Tell Claude Code: <strong>"Review every page for mobile responsiveness, accessibility (WCAG AA), SEO (title tags, meta descriptions, alt text), performance (lazy images, minified CSS/JS), and cross-browser Safari compatibility. Fix everything."</strong></p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ HTML STRUCTURE ═══════════ -->
+    <div class="chapter" id="html-structure">
+      <div class="chapter-num">06</div>
+      <h2 class="chapter-h">HTML Structure Every Site Needs</h2>
+      <p class="chapter-sub">These are the non-negotiable elements that every professional website requires. Miss any of these and the site is incomplete.</p>
+
+      <div class="section">
+        <div class="section-h">Head Section Checklist</div>
+        <div class="code"><span class="comment">&lt;!-- Every page needs all of these --&gt;</span>
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;<span class="flag">Unique Page Title — Site Name</span>&lt;/title&gt;
+&lt;meta name="description" content="<span class="flag">Under 160 characters</span>"&gt;
+
+<span class="comment">&lt;!-- Open Graph for social sharing --&gt;</span>
+&lt;meta property="og:title" content="…"&gt;
+&lt;meta property="og:description" content="…"&gt;
+&lt;meta property="og:type" content="website"&gt;
+&lt;meta property="og:url" content="https://yoursite.com"&gt;
+
+<span class="comment">&lt;!-- Favicon --&gt;</span>
+&lt;link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"&gt;
+
+<span class="comment">&lt;!-- Google Fonts --&gt;</span>
+&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=…" rel="stylesheet"&gt;</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Accessibility Non-Negotiables</div>
+        <div class="code"><span class="comment">&lt;!-- Skip link (first thing in body) --&gt;</span>
+&lt;a href="#main" class="skip-link"&gt;Skip to main content&lt;/a&gt;
+
+<span class="comment">&lt;!-- Nav needs role and aria-label --&gt;</span>
+&lt;nav role="navigation" aria-label="Main navigation"&gt;
+
+<span class="comment">&lt;!-- Hamburger button needs aria attributes --&gt;</span>
+&lt;button aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMobile"&gt;
+
+<span class="comment">&lt;!-- Main content needs id="main" --&gt;</span>
+&lt;main id="main"&gt;
+
+<span class="comment">&lt;!-- All images need alt text --&gt;</span>
+&lt;img src="logo.png" alt="Company Name" width="200" height="60" loading="lazy"&gt;
+
+<span class="comment">&lt;!-- Form inputs need labels --&gt;</span>
+&lt;label for="email"&gt;Email Address&lt;/label&gt;
+&lt;input type="email" id="email" name="email" required&gt;</div>
+      </div>
+    </div>
+
+    <!-- ═══════════ CSS SYSTEM ═══════════ -->
+    <div class="chapter" id="css-system">
+      <div class="chapter-num">07</div>
+      <h2 class="chapter-h">CSS System</h2>
+      <p class="chapter-sub">Always set up your brand variables first. Change these 6 lines and the entire site updates automatically.</p>
+
+      <div class="section">
+        <div class="section-h">Brand Variables — Update Per Client</div>
+        <div class="code">:root {
+  <span class="comment">/* Colors */</span>
+  --color-primary:   <span class="flag">#1B5DBF</span>;
+  --color-secondary: <span class="flag">#8B9AB0</span>;
+  --color-dark:      <span class="flag">#0f0e0d</span>;
+  --color-light:     <span class="flag">#faf8f4</span>;
+  --color-muted:     <span class="flag">#6B7280</span>;
+  --color-border:    <span class="flag">#ddd8cf</span>;
+
+  <span class="comment">/* Fonts */</span>
+  --font-heading: <span class="flag">'Barlow Condensed'</span>, sans-serif;
+  --font-body:    <span class="flag">'DM Sans'</span>, sans-serif;
+  --font-mono:    <span class="flag">'DM Mono'</span>, monospace;
+
+  <span class="comment">/* Layout */</span>
+  --max-width:  1160px;
+  --nav-height: 68px;
+  --radius:     4px;
+}</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Mobile-First Responsive Breakpoints</div>
+        <div class="code"><span class="comment">/* Base styles are for mobile */</span>
+.container { padding: 0 20px; }
+
+<span class="comment">/* Tablet */</span>
+@media (min-width: 768px) {
+  .container { padding: 0 32px; }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+}
+
+<span class="comment">/* Desktop */</span>
+@media (min-width: 1024px) {
+  .container { padding: 0 40px; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+<span class="comment">/* Large desktop */</span>
+@media (min-width: 1440px) {
+  .container { max-width: 1200px; margin: 0 auto; }
+}</div>
+      </div>
+    </div>
+
+    <!-- ═══════════ ANIMATIONS ═══════════ -->
+    <div class="chapter" id="animations">
+      <div class="chapter-num">08</div>
+      <h2 class="chapter-h">Animations and Motion</h2>
+      <p class="chapter-sub">These patterns make sites feel modern and alive. Used in all three SPN options.</p>
+
+      <div class="section">
+        <div class="section-h">Scroll Reveal (Used on Every Section)</div>
+        <div class="code"><span class="comment">/* CSS */</span>
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+<span class="comment">/* JS — IntersectionObserver */</span>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.style.transitionDelay = (i % 5) * 0.08 + 's';
+  observer.observe(el);
+});</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Counter Animation (Stats That Count Up)</div>
+        <div class="code"><span class="comment">/* HTML */</span>
+&lt;span class="count" data-target="28"&gt;0&lt;/span&gt;
+
+<span class="comment">/* JS */</span>
+function animateCounter(el, target, duration = 1600) {
+  let start = null;
+  const step = timestamp => {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target);
+    if (progress &lt; 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  };
+  requestAnimationFrame(step);
+}
+
+const countObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateCounter(e.target, +e.target.dataset.target);
+      countObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.count').forEach(el => countObs.observe(el));</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Scrolling Ticker</div>
+        <div class="code"><span class="comment">/* HTML */</span>
+&lt;div class="ticker"&gt;&lt;div class="ticker-track" id="tick"&gt;&lt;/div&gt;&lt;/div&gt;
+
+<span class="comment">/* CSS */</span>
+.ticker { overflow: hidden; }
+.ticker-track {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker 28s linear infinite;
+}
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+<span class="comment">/* JS — duplicate items for seamless loop */</span>
+const items = ["Item 1", "Item 2", "Item 3"];
+const track = document.getElementById('tick');
+track.innerHTML = items.concat(items)
+  .map(i => `&lt;span class="tick-item"&gt;${i}&lt;/span&gt;`)
+  .join('');</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">SVG Animations (Waveforms, Radars, Scans)</div>
+        <div class="code"><span class="comment">&lt;!-- Animated waveform path --&gt;</span>
+&lt;path stroke="#00C8FF" stroke-width="1.5" fill="none"&gt;
+  &lt;animate attributeName="d" dur="3s" repeatCount="indefinite"
+    values="M20 60 Q60 20 100 60 Q140 100 180 60 Q220 20 260 60;
+            M20 60 Q60 40 100 60 Q140 80 180 60 Q220 40 260 60;
+            M20 60 Q60 20 100 60 Q140 100 180 60 Q220 20 260 60"/&gt;
+&lt;/path&gt;
+
+<span class="comment">&lt;!-- Animated scanning line --&gt;</span>
+&lt;line stroke="rgba(0,200,255,0.5)" stroke-width="1.5"&gt;
+  &lt;animate attributeName="x1" from="0" to="100%" dur="3s" repeatCount="indefinite"/&gt;
+  &lt;animate attributeName="x2" from="0" to="100%" dur="3s" repeatCount="indefinite"/&gt;
+&lt;/line&gt;
+
+<span class="comment">&lt;!-- Spinning element --&gt;</span>
+&lt;g style="transform-origin: 100px 100px; animation: spin 8s linear infinite"&gt;
+  &lt;!-- content rotates --&gt;
+&lt;/g&gt;
+&lt;style&gt;@keyframes spin { to { transform: rotate(360deg); } }&lt;/style&gt;</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Nav That Changes on Scroll</div>
+        <div class="code">const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+<span class="comment">/* CSS */</span>
+.nav { background: transparent; transition: all 0.3s ease; }
+.nav.scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+}</div>
+      </div>
+    </div>
+
+    <!-- ═══════════ FORMS ═══════════ -->
+    <div class="chapter" id="forms">
+      <div class="chapter-num">09</div>
+      <h2 class="chapter-h">Contact Forms with EmailJS</h2>
+      <p class="chapter-sub">EmailJS sends form submissions to your email without needing a backend server. Free tier gives 200 emails per month.</p>
+
+      <div class="section">
+        <div class="section-h">EmailJS Setup (One Time)</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Create account at emailjs.com</h4></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Add Email Service</h4><p>Click Add New Service, connect your Gmail account, copy the Service ID</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Create Email Template</h4><p>Click Email Templates → Create. Set To Email = <code style="font-family:var(--mono)">{{to_email}}</code>, Subject = <code style="font-family:var(--mono)">{{subject}}</code>, Body = <code style="font-family:var(--mono)">{{message}}</code>. Save and copy the Template ID.</p></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Copy your Public Key</h4><p>Go to Account → copy the Public Key</p></div></div>
+        </div>
+
+        <div class="info">
+          <div class="info-label">Coleman's EmailJS Credentials</div>
+          <p><strong>Public Key:</strong> ufyqKSwAbLjNvhbct<br><strong>Service ID:</strong> service_3xrx8b4<br><strong>Template ID:</strong> template_equqk6j<br><strong>Email:</strong> cole.parks030@gmail.com</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Complete Form Implementation</div>
+        <div class="code"><span class="comment">&lt;!-- Add to &lt;head&gt; --&gt;</span>
+&lt;script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"&gt;&lt;/script&gt;
+
+<span class="comment">&lt;!-- JS --&gt;</span>
+emailjs.init('<span class="flag">YOUR_PUBLIC_KEY</span>');
+
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('[type="submit"]');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try {
+    await emailjs.send('<span class="flag">SERVICE_ID</span>', '<span class="flag">TEMPLATE_ID</span>', {
+      to_email:   '<span class="flag">your@email.com</span>',
+      from_name:  e.target.name.value,
+      from_email: e.target.email.value,
+      reply_to:   e.target.email.value,
+      subject:    e.target.subject.value,
+      message:    e.target.message.value,
+    });
+    e.target.style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Send Message';
+    document.getElementById('formError').style.display = 'block';
+  }
+});</div>
+      </div>
+    </div>
+
+    <!-- ═══════════ DEPLOY ═══════════ -->
+    <div class="chapter" id="deploy">
+      <div class="chapter-num">10</div>
+      <h2 class="chapter-h">Deploying to GitHub Pages</h2>
+      <p class="chapter-sub">GitHub Pages turns your repo into a free live website. Every push automatically updates the live site.</p>
+
+      <div class="section">
+        <div class="section-h">From Terminal (Mac)</div>
+        <div class="code"><span class="comment"># Make sure you're in your project folder</span>
+<span class="cmd">cd your-project</span>
+
+<span class="comment"># Stage, commit, and push</span>
+<span class="cmd">git add .</span>
+<span class="cmd">git commit -m "initial website build"</span>
+<span class="cmd">git push</span></div>
+        <p class="section-p">Then on GitHub: Go to your repo → Settings → Pages → Under Branch select <strong>main</strong> → Save. Wait 60 seconds. Your site is live at <strong>https://USERNAME.github.io/REPO-NAME</strong>.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Project in a Subfolder</div>
+        <p class="section-p">To host a client site at a subfolder (like Coleman does for SPN):</p>
+        <div class="code"><span class="comment"># Create subfolder and add index.html inside it</span>
+<span class="cmd">mkdir spndt</span>
+<span class="comment"># Put your HTML file in there named index.html</span>
+<span class="cmd">git add .</span>
+<span class="cmd">git commit -m "add client website"</span>
+<span class="cmd">git push</span></div>
+        <p class="section-p">Live at: <strong>https://USERNAME.github.io/REPO-NAME/spndt</strong></p>
+      </div>
+    </div>
+
+    <!-- ═══════════ BRAND OVERVIEW ═══════════ -->
+    <div class="chapter" id="brand-overview">
+      <div class="chapter-num">11</div>
+      <h2 class="chapter-h">Brand Building — Full Process</h2>
+      <p class="chapter-sub">Building a brand from nothing to everything. Five stages, in order. Do not skip stages.</p>
+
+      <table>
+        <tr><th>Stage</th><th>What Happens</th><th>Tool</th></tr>
+        <tr><td>1 — Discovery</td><td>Client fills intake form, you generate brand brief</td><td>Brand Discovery form + Claude.ai</td></tr>
+        <tr><td>2 — Visual Identity</td><td>Logo, colors, fonts, brand guidelines</td><td>Claude Design</td></tr>
+        <tr><td>3 — Asset Organization</td><td>Files organized, resized for all platforms</td><td>Claude Cowork</td></tr>
+        <tr><td>4 — Website Build</td><td>Full site built, reviewed, wired up</td><td>Claude Code + VS Code</td></tr>
+        <tr><td>5 — Launch</td><td>QA, client review, domain connection, handoff</td><td>GitHub Pages + DNS</td></tr>
+      </table>
+    </div>
+
+    <!-- ═══════════ CLIENT INTAKE ═══════════ -->
+    <div class="chapter" id="client-intake">
+      <div class="chapter-num">12</div>
+      <h2 class="chapter-h">Client Intake</h2>
+      <p class="chapter-sub">Everything you need to collect before starting. Used to create the brand brief and drive every design decision.</p>
+
+      <div class="section">
+        <div class="section-h">The Discovery Form (Live at GitHub Pages)</div>
+        <p class="section-p">Coleman's intake form is live at <strong>https://cp030.github.io/repo-depot</strong>. When submitted, responses go to cole.parks030@gmail.com and a copy goes to the submitter. Built with HTML, CSS, JavaScript, and EmailJS — no backend.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-h">What to Collect from Every Client</div>
+        <table>
+          <tr><th>Category</th><th>Key Questions</th></tr>
+          <tr><td>Company</td><td>Full name, nickname, what they do, who they serve, business stage, location, reach</td></tr>
+          <tr><td>Customer</td><td>Profile of ideal customer, problem being solved, why choose them</td></tr>
+          <tr><td>Brand Feel</td><td>3 to 5 vibe words, brand inspirations, what to avoid, professional vs casual, minimal vs bold</td></tr>
+          <tr><td>Visual</td><td>Color preferences, light or dark, existing assets, logo style</td></tr>
+          <tr><td>Competition</td><td>Main competitors, how they differentiate</td></tr>
+          <tr><td>Deliverables</td><td>Website, social, physical materials, domain status</td></tr>
+          <tr><td>Practical</td><td>Timeline, decision makers, who maintains after handoff</td></tr>
+          <tr><td>The Big One</td><td>"When someone sees your brand for the first time, what is the one thing you want them to think or feel?"</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════ BRAND BRIEF ═══════════ -->
+    <div class="chapter" id="brand-brief">
+      <div class="chapter-num">13</div>
+      <h2 class="chapter-h">Brand Brief Generation</h2>
+      <p class="chapter-sub">The brand brief is the source of truth for everything that follows. Generate it from the form responses using this prompt.</p>
+
+      <div class="section">
+        <div class="section-h">Prompt to Generate the Brief</div>
+        <div class="code">"You are a senior brand strategist. I am going to paste client intake form responses below.
+
+Analyze every answer and produce a structured Brand Brief with these sections:
+
+1. COMPANY OVERVIEW — name, what they do, who they serve, stage, location
+2. BRAND POSITIONING — 2 to 3 sentence positioning statement
+3. TARGET AUDIENCE — detailed profile of ideal customer
+4. BRAND PERSONALITY — tone, voice, adjectives, how it should feel
+5. VISUAL DIRECTION — colors, style, light vs dark, inspirations, what to avoid
+6. COMPETITIVE LANDSCAPE — competitors and how this brand differentiates
+7. MESSAGING PILLARS — 3 to 4 core messages to communicate consistently
+8. TAGLINE OPTIONS — 3 concepts based on the brief
+9. DELIVERABLES — checklist of what to build
+10. OPEN QUESTIONS — anything unclear before proceeding
+
+Be specific, not generic. Use their actual words. No filler.
+
+[PASTE FORM RESPONSES HERE]"</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Review the Brief Before Moving On</div>
+        <p class="section-p">Check that the positioning statement reflects what they actually said. Confirm the visual direction matches their inspirations and avoid list. If there are open questions that would change the design direction, reach out to the client before starting visual work.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════ VISUAL IDENTITY ═══════════ -->
+    <div class="chapter" id="visual-identity">
+      <div class="chapter-num">14</div>
+      <h2 class="chapter-h">Visual Identity in Claude Design</h2>
+      <p class="chapter-sub">Open Claude Design from the palette icon in claude.ai. Work through these in order and get approval at each step before moving forward.</p>
+
+      <div class="section">
+        <div class="section-h">Step 1 — Logo Concepts</div>
+        <div class="code">"Build 3 logo concepts for this brand. Brand brief: [paste brief]
+
+For each concept:
+- Show the primary logo (horizontal or stacked)
+- Describe the design thinking
+- Explain the style (wordmark, lettermark, icon plus text, abstract)
+- Show why it fits the brand positioning
+
+Make each concept meaningfully different from the others."</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Step 2 — Color Palette</div>
+        <div class="code">"Using the approved logo direction and this brand brief, build a complete color system:
+
+- 1 primary color (for logo, CTAs, key moments)
+- 1 to 2 secondary colors (support the primary)
+- 1 neutral dark (text, backgrounds)
+- 1 neutral light (backgrounds, white space)
+- 1 accent (used sparingly)
+
+For each color: hex code, RGB, CMYK, and usage note.
+Show the palette applied to a sample layout.
+Confirm WCAG AA accessibility contrast compliance."</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Step 3 — Typography System</div>
+        <div class="code">"Select a typography system using Google Fonts only.
+
+- Heading font that matches brand personality
+- Body font that pairs well and reads well at small sizes
+- Full size scale: H1 through H4, body, caption, label
+- Line height and letter spacing for each
+- Show applied to a sample layout"</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Step 4 — Brand Guidelines Document</div>
+        <div class="code">"Generate a complete Brand Guidelines document with:
+
+1. Brand Overview — mission, values, personality
+2. Logo Usage — do and don't, sizes, clear space, variations
+3. Color System — all colors with codes, usage rules
+4. Typography — full type scale, pairing rules, examples
+5. Imagery Style — photography direction
+6. Voice and Tone — how the brand writes, on and off-brand examples
+7. Applications — show brand on business card, website header, social post"</div>
+      </div>
+    </div>
+
+    <!-- ═══════════ BRAND ASSETS ═══════════ -->
+    <div class="chapter" id="brand-assets">
+      <div class="chapter-num">15</div>
+      <h2 class="chapter-h">Brand Asset Checklist</h2>
+      <p class="chapter-sub">Everything that needs to be delivered to the client.</p>
+
+      <div class="section">
+        <div class="section-h">Logo Exports Needed</div>
+        <table>
+          <tr><th>File</th><th>Format</th><th>Use</th></tr>
+          <tr><td>logo-primary-dark.svg + .png</td><td>SVG + PNG</td><td>Main logo on light backgrounds</td></tr>
+          <tr><td>logo-primary-light.svg + .png</td><td>SVG + PNG</td><td>Main logo on dark backgrounds</td></tr>
+          <tr><td>icon-dark.svg + .png</td><td>SVG + PNG</td><td>Icon/mark only</td></tr>
+          <tr><td>favicon-32x32.png + 16x16.png</td><td>PNG</td><td>Browser tab</td></tr>
+          <tr><td>apple-touch-icon.png (180x180)</td><td>PNG</td><td>iOS home screen</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Social Media Sizes</div>
+        <table>
+          <tr><th>Platform</th><th>Profile Photo</th><th>Cover/Banner</th><th>Post</th></tr>
+          <tr><td>LinkedIn</td><td>400 × 400</td><td>1584 × 396</td><td>1200 × 628</td></tr>
+          <tr><td>Instagram</td><td>400 × 400</td><td>N/A</td><td>1080 × 1080</td></tr>
+          <tr><td>Facebook</td><td>400 × 400</td><td>820 × 312</td><td>1200 × 630</td></tr>
+          <tr><td>Twitter/X</td><td>400 × 400</td><td>1500 × 500</td><td>1200 × 675</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Business Card Specs</div>
+        <p class="section-p">Size: <strong>3.5 × 2 inches</strong> at <strong>300 DPI</strong> in <strong>CMYK</strong> color mode. Add <strong>0.125 inch bleed</strong> on all sides. Keep important content at least 0.125 inch from the trim edge. Recommended: Moo.com for high quality print.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════ LAUNCH ═══════════ -->
+    <div class="chapter" id="launch">
+      <div class="chapter-num">16</div>
+      <h2 class="chapter-h">Review, QA, and Launch</h2>
+      <p class="chapter-sub">Never skip this checklist even under time pressure.</p>
+
+      <div class="section">
+        <div class="section-h">Pre-Launch Checklist</div>
+        <table>
+          <tr><th>Item</th><th>How to Check</th></tr>
+          <tr><td>All pages load</td><td>Test every page in Chrome, Safari, and Firefox</td></tr>
+          <tr><td>Mobile layout correct</td><td>Test on an actual phone, not just DevTools</td></tr>
+          <tr><td>All links work</td><td>Click every nav link, button, and CTA on every page</td></tr>
+          <tr><td>Contact form works</td><td>Submit the form end to end, confirm email arrives</td></tr>
+          <tr><td>Images display</td><td>All images load with no broken icons</td></tr>
+          <tr><td>Brand applied correctly</td><td>Colors, fonts, and logo match approved guidelines</td></tr>
+          <tr><td>Copy proofed</td><td>Read every word on every page</td></tr>
+          <tr><td>SEO complete</td><td>Unique title and meta description on every page</td></tr>
+          <tr><td>Favicon shows</td><td>Check browser tab</td></tr>
+          <tr><td>No console errors</td><td>Open browser DevTools, check console for red errors</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Connecting a Custom Domain</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Go to GitHub repo Settings → Pages</h4><p>Under Custom domain, type the domain name (example: spndt.com) and save</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Add DNS records at your domain registrar</h4><p>Log in to wherever the domain was purchased. Add 4 A records pointing to GitHub's IPs: 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153. Also add a CNAME record: www → USERNAME.github.io</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Wait for DNS propagation</h4><p>Can take 15 minutes to 48 hours. GitHub Pages shows a green checkmark when SSL is ready.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ EMAILJS ═══════════ -->
+    <div class="chapter" id="emailjs">
+      <div class="chapter-num">17</div>
+      <h2 class="chapter-h">EmailJS Reference</h2>
+
+      <div class="section">
+        <div class="section-h">Template Variables</div>
+        <p class="section-p">Your EmailJS template must use these variable names exactly. They map to what the JavaScript sends.</p>
+        <table>
+          <tr><th>Variable</th><th>What It Contains</th></tr>
+          <tr><td>{{to_email}}</td><td>Who receives the email — put this in the To Email field in template settings</td></tr>
+          <tr><td>{{from_name}}</td><td>Sender name</td></tr>
+          <tr><td>{{from_email}}</td><td>Sender email</td></tr>
+          <tr><td>{{reply_to}}</td><td>Reply-to address</td></tr>
+          <tr><td>{{subject}}</td><td>Email subject line</td></tr>
+          <tr><td>{{message}}</td><td>Full message body — put this in the content area</td></tr>
+        </table>
+      </div>
+
+      <div class="info">
+        <div class="info-label">DNS Fix for Microsoft 365 Email</div>
+        <p>If a client bought a domain and Microsoft 365 but email is not working: go to admin.microsoft.com → Settings → Domains → the domain → Continue Setup. Microsoft shows the exact MX, TXT, and CNAME records to add. Log into the domain registrar and add them exactly. Email flows within a few hours. The MX record is the critical one.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════ PROMPTS ═══════════ -->
+    <div class="chapter" id="prompts">
+      <div class="chapter-num">18</div>
+      <h2 class="chapter-h">Prompt Library</h2>
+      <p class="chapter-sub">Copy these prompts and fill in the brackets. These are the exact patterns that produced the best results in this project.</p>
+
+      <div class="section">
+        <div class="section-h">Generate a Complete Website</div>
+        <div class="code">"Build a complete single-file HTML website for this brand.
+
+Return ONLY raw HTML. Start with &lt;!DOCTYPE html&gt;. No backticks. No explanation.
+
+Brand brief: [PASTE BRIEF]
+
+Requirements:
+- All CSS in style tag, all JS in script tag
+- Google Fonts via @import
+- CSS custom properties in :root for all brand values
+- Fixed nav with mobile hamburger
+- Sections: hero, about, services (3), why us, contact form, footer
+- Contact form shows success state on submit (EmailJS or static)
+- Mobile-first at 480px, 768px, 1024px
+- Semantic HTML5 with aria labels
+- No placeholder images — use CSS gradients
+- Animated SVG graphic in the hero reflecting the industry
+- Scroll-triggered fade-in animations
+- Counter animations on any stats
+- Scrolling ticker bar with relevant industry terms
+- Auto-updating copyright year in footer
+- Write real copy based on the brief — not placeholder text"</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Fix a Specific Problem</div>
+        <div class="code">"The [ELEMENT] is not working correctly.
+It should: [EXPECTED BEHAVIOR]
+Instead it: [ACTUAL BEHAVIOR]
+This happens on: [DEVICE / BROWSER]
+Here is the relevant code: [PASTE CODE]
+Find the issue, fix it, and explain what was wrong."</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Write Homepage Copy</div>
+        <div class="code">"Write homepage copy for this brand.
+Brand brief: [PASTE BRIEF]
+Include: headline (8 words max), subheadline (1 sentence), CTA button label.
+Tone: [DESCRIBE TONE]
+Do not use the words innovative, solutions, or passionate."</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">QA Pass</div>
+        <div class="code">"Run a full quality check on this website and fix all issues:
+
+MOBILE: 375px layout correct, touch targets 44px minimum, no horizontal scroll
+ACCESSIBILITY: keyboard navigation, focus states visible, color contrast AA, form labels
+SEO: unique title and meta on every page, H1 present, all images have alt text
+PERFORMANCE: lazy loading on images, Google Fonts with display=swap
+SAFARI: fix any CSS that breaks in Safari specifically
+
+Provide a summary of every change made."</div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Claude Design — Generate Brand Identity</div>
+        <div class="code">"I am building a brand identity for [COMPANY].
+
+Here is their full brand brief: [PASTE BRIEF]
+
+Generate 3 logo concepts, each meaningfully different.
+For each: primary version, icon version, design rationale, and why it fits the brand.
+Then show how the chosen direction looks in dark and light versions."</div>
+      </div>
+    </div>
+
+    <!-- ═══════════ DESIGN INTELLIGENCE TOOLS ═══════════ -->
+    <div class="chapter" id="design-tools">
+      <div class="chapter-num">19</div>
+      <h2 class="chapter-h">Design Intelligence Tools</h2>
+      <p class="chapter-sub">Claude Code skills and CLI tools that eliminate AI slop, enforce design standards, and give Claude actual design thinking — not just layout generation.</p>
+
+      <div class="section">
+        <div class="section-h">One-Time Mac Setup</div>
+        <p class="section-p">Run this once. It installs all Claude Code skills and the Impeccable CLI in one shot.</p>
+        <div class="code"><span class="cmd">./setup-mac.sh</span></div>
+        <p class="section-p">Or install skills individually:</p>
+        <div class="code"><span class="comment"># Anthropic's official frontend design skill</span>
+<span class="cmd">npx skills add anthropics/skills@frontend-design</span>
+
+<span class="comment"># UI/UX intelligence — visual hierarchy, colour psychology, 50+ styles</span>
+<span class="cmd">npx skills add nextlevelbuilder/ui-ux-pro-max-skill@ui-ux-pro-max</span>
+
+<span class="comment"># Vercel web design guidelines — 100+ rules</span>
+<span class="cmd">npx skills add vercel-labs/agent-skills@web-design-guidelines</span>
+
+<span class="comment"># WCAG accessibility baked in from day one</span>
+<span class="cmd">npx skills add supercent-io/skills-template@web-accessibility</span>
+
+<span class="comment"># Accessible component patterns</span>
+<span class="cmd">npx skills add giuseppe-trisciuoglio/developer-kit@shadcn-ui</span>
+
+<span class="comment"># Impeccable — anti-AI-slop Claude Code skill</span>
+<span class="cmd">npx skills add pbakaus/impeccable</span>
+
+<span class="comment"># Impeccable CLI — run locally to detect design issues</span>
+<span class="cmd">npm install -g impeccable</span></div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">The Tools and What They Do</div>
+        <table>
+          <tr><th>Tool</th><th>Type</th><th>What It Does</th></tr>
+          <tr><td>Impeccable</td><td>CLI + Claude skill</td><td>Detects 27 AI-slop anti-patterns before they ship: bounce easing, gradient text, nested cards, side-stripe borders, dark glows, purple gradients</td></tr>
+          <tr><td>frontend-design</td><td>Claude Code skill</td><td>Design tokens, responsive layouts, accessibility built into every component Claude generates</td></tr>
+          <tr><td>UI-UX-Pro-Max</td><td>Claude Code skill</td><td>Gives Claude real design thinking — visual hierarchy, colour psychology, interaction patterns, the why behind every UI decision</td></tr>
+          <tr><td>web-design-guidelines</td><td>Claude Code skill</td><td>100+ rules always on: spacing, typography, hierarchy, a11y, forms, animations, dark mode, touch — flags issues before they reach users</td></tr>
+          <tr><td>web-accessibility</td><td>Claude Code skill</td><td>WCAG standards from day one — contrast, keyboard nav, semantic structure — baked in, not bolted on</td></tr>
+          <tr><td>shadcn-ui</td><td>Claude Code skill</td><td>High-quality accessible UI patterns so Claude stops designing the same components twice</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Impeccable Commands (After Skill Install)</div>
+        <p class="section-p">Type these inside Claude Code during any website build:</p>
+        <table>
+          <tr><th>Command</th><th>What It Does</th><th>When to Use</th></tr>
+          <tr><td>/impeccable audit</td><td>Full technical QA — a11y, performance, responsive</td><td>Before every push</td></tr>
+          <tr><td>/impeccable polish</td><td>Final quality pass — catches everything subtle</td><td>Final step before client delivery</td></tr>
+          <tr><td>/impeccable critique</td><td>UX review with heuristic scoring</td><td>Mid-build design review</td></tr>
+          <tr><td>/impeccable typeset</td><td>Fix typography hierarchy, scale, line length</td><td>When type feels flat or hard to read</td></tr>
+          <tr><td>/impeccable colorize</td><td>Add strategic color to monochromatic designs</td><td>When design feels dull</td></tr>
+          <tr><td>/impeccable animate</td><td>Add purposeful motion with correct easing</td><td>When adding scroll reveals and transitions</td></tr>
+          <tr><td>/impeccable layout</td><td>Fix spacing, rhythm, padding</td><td>When layout feels cramped or monotonous</td></tr>
+          <tr><td>/impeccable bolder</td><td>Amplify bland, generic-looking designs</td><td>When design is too safe</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-h">Design Quality Gate — Run Before Every Push</div>
+        <p class="section-p">Built into the repo. Runs impeccable plus a manual checklist covering AI slop, accessibility, SEO, and performance.</p>
+        <div class="code"><span class="comment"># Check a single file</span>
+<span class="cmd">./check.sh slug/index.html</span>
+
+<span class="comment"># Check an entire build folder</span>
+<span class="cmd">./check.sh spndt/</span></div>
+        <div class="info">
+          <div class="info-label">What It Checks</div>
+          <p><strong>AI Slop:</strong> bounce easing, gradient text, side-stripe borders, pure black/white, layout property animations<br>
+          <strong>Accessibility:</strong> skip link, main landmark, H1, image alt text, form labels, aria attributes<br>
+          <strong>SEO:</strong> title, meta description, viewport, og tags, favicon<br>
+          <strong>Performance:</strong> lazy loading, Google Fonts display=swap<br>
+          <strong>Structure:</strong> main, nav, footer, inline style count</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-h">The Design Laws Baked Into This Repo</div>
+        <p class="section-p">CLAUDE.md at the root of this repo contains the full design ruleset. Every Claude Code session here automatically follows these laws — no prompting needed.</p>
+        <table>
+          <tr><th>Rule Category</th><th>Key Laws</th></tr>
+          <tr><td>Color</td><td>Never pure black or white. Always tint toward brand. No gradient text. No purple gradients.</td></tr>
+          <tr><td>Typography</td><td>65–75 char line length max. 1.25 minimum ratio between type scale steps. Never Arial or system-ui.</td></tr>
+          <tr><td>Layout</td><td>Vary spacing for rhythm. Cards are lazy defaults. Nested cards are always wrong.</td></tr>
+          <tr><td>Motion</td><td>Never animate layout properties. Use ease-out-quart curves. No bounce or elastic easing.</td></tr>
+          <tr><td>Banned</td><td>Side-stripe borders. Glassmorphism as default. Identical card grids. Hero-metric template. Modal-first design.</td></tr>
+          <tr><td>Accessibility</td><td>Skip link. WCAG AA contrast. All images alt text. All inputs labeled. Visible focus states.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer style="margin-top:80px;padding-top:32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding-bottom:40px">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:var(--dim)">Coleman Parks · Dev and Brand Playbook · 2026</div>
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:var(--dim)">Built with Claude</div>
+    </footer>
+
+  </div>
+  </main>
+</div>
+
+<script>
+// Active nav link on scroll
+const sections = document.querySelectorAll('.chapter[id]');
+const links = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+  links.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+}, { passive: true });
+</script>
+
+</body>
+</html>

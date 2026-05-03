@@ -12,14 +12,16 @@ All work here is **brand register** — marketing sites, landing pages, client-f
 
 ```
 repo-depot/
-├── index.html          # Playbook (hub page)
-├── CLAUDE.md           # This file
+├── index.html          # Hub page — lists all client builds
+├── CLAUDE.md           # This file — design laws for every session
 ├── PRODUCT.md          # Brand context
-├── new-client.sh       # Scaffold a new client build
 ├── check.sh            # Design quality gate — run before every push
+├── new-client.sh       # Scaffold a build + auto-add hub card
 ├── setup-mac.sh        # One-time Mac skill installation
 ├── _template/
 │   └── index.html      # Starter for new builds
+├── playbook/
+│   └── index.html      # Full Dev + Brand Playbook
 └── client-slug/        # One folder per client build
     └── index.html
 ```
