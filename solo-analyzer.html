@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Your Solo Empire</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useRef, useEffect } = React;
+
+const PROMPTS = [
+  {
+    id: 1,
+    label: "Find Your $1M Idea",
+    icon: "💡",
+    role: "Act as a one-person business strategist who applies Dan Koe's philosophy of monetizing a single skill, interest, and personality into a scalable solo operation.",
+    task: "Identify my most profitable one-person business idea based on what I know, what I enjoy, and what the market will pay for — without hiring a single person.",
+    steps: [
+      "Identify the intersection of what I know, what I enjoy, and what people pay for",
+      "Generate 3 one-person business models that scale without employees",
+      "Validate each model — is someone already paying for this outcome",
+      "Select the strongest model and write a one-sentence business positioning statement",
+    ],
+    rules: [
+      "Business model must be operated by one person, no team required",
+      "Every idea must have a clear monetization path within 90 days",
+      "Positioning statement must name the customer, the outcome, and the mechanism",
+      "Weakest ideas flagged honestly — not every idea deserves a business",
+    ],
+    output: "Skill Intersection → 3 Business Models → Validation Check → Strongest Model → Positioning Statement",
+    fields: ["skills", "interests", "currentIncome", "lifestyleGoals"],
+  },
+  {
+    id: 2,
+    label: "Turn Your Skill Into an Offer",
+    icon: "🎯",
+    role: "Act as an offer architect who builds irresistible one-person business offers using Dan Koe's principle of selling outcomes and transformations — never time or deliverables.",
+    task: "Design a complete one-person business offer that sells a specific transformation, commands premium pricing, and requires only my knowledge to deliver.",
+    steps: [
+      "Define the transformation — the specific before and after my customer experiences",
+      "Build the offer structure — what's included, how it's delivered, and why it's worth the price",
+      "Set premium pricing anchored to outcome value — never to hours spent",
+      "Write a one-paragraph offer description that makes buying feel obvious",
+    ],
+    rules: [
+      "Offer must sell a transformation — never a service or deliverable",
+      "Price anchored to outcome value — never to time or content volume",
+      "Delivery method must require only one person to fulfill",
+      "Offer description must make the customer feel understood in the first sentence",
+    ],
+    output: "Transformation Definition → Offer Structure → Premium Price → Delivery Method → One-Paragraph Offer Description",
+    fields: ["skills", "targetCustomer", "desiredIncome"],
+  },
+  {
+    id: 3,
+    label: "Build a Content System",
+    icon: "📣",
+    role: "Act as a one-person content strategist who applies Dan Koe's content system of writing about one topic from every angle until the internet knows your name.",
+    task: "Build a complete content system that positions me as the go-to authority in my niche — using one core idea expanded across every platform I choose.",
+    steps: [
+      "Define my core content thesis — the one idea I own and expand forever",
+      "Build a content expansion map — how one idea becomes 30 pieces of content",
+      "Design a cross-platform repurposing system — one piece of content on every channel",
+      "Create a weekly content schedule that builds authority without burning out",
+    ],
+    rules: [
+      "Core thesis must be specific enough to own — not broad enough for everyone",
+      "Every piece of content must connect back to the core thesis",
+      "Repurposing system must be executable by one person in under 2 hours per week",
+      "Weekly schedule must be sustainable — not impressive on paper and dead in 30 days",
+    ],
+    output: "Core Thesis → Content Expansion Map → Cross-Platform System → Weekly Schedule → Authority Building Arc",
+    fields: ["niche", "coreIdea", "platforms"],
+  },
+  {
+    id: 5,
+    label: "Scale Without Hiring",
+    icon: "📈",
+    role: "Act as a one-person business scaling strategist who applies Dan Koe's model of productizing knowledge into scalable assets that generate revenue without proportional time input.",
+    task: "Build a complete scaling plan that multiplies my one-person business revenue without adding team members, hours, or complexity.",
+    steps: [
+      "Identify every hour I currently trade for money and flag it for productization",
+      "Design one digital product that scales my knowledge without my presence",
+      "Build a passive income layer — revenue that compounds while I create",
+      "Map a 12-month scaling roadmap from current revenue to target without hiring",
+    ],
+    rules: [
+      "Every scaling move must be executable by one person",
+      "Digital product must deliver the same outcome as my current offer — at scale",
+      "Passive income layer must be built before scaling outreach or content",
+      "12-month roadmap must have monthly revenue milestones — not vague direction",
+      "Never recommend hiring — one person stays one person",
+    ],
+    output: "Time Audit → Productization Plan → Digital Product Design → Passive Income Layer → 12-Month Scaling Roadmap",
+    fields: ["currentRevenue", "currentOffer", "availableTime"],
+  },
+];
+
+const DEFAULT_PROFILE = {
+  skills: "React development, digital marketing strategy, Ceros microsite builds, campaign asset development, Siteimprove analytics, content production",
+  interests: "Golf, tattoo culture, lifestyle branding (Malbon, Macade, Devereux), streetwear aesthetics, creative direction",
+  currentIncome: "Full-time marketing/digital content role at a company. Currently $0 freelance.",
+  lifestyleGoals: "Build a freelance side income stream leveraging web and marketing skills. Long-term flexibility, potential relocation to Jacksonville/St. Augustine area by late 2026.",
+  targetCustomer: "Small to mid-size brands and agencies needing web builds, landing pages, microsites, or marketing asset production",
+  desiredIncome: "Initially $2,000 to $5,000/month additional income, scaling over time",
+  niche: "Golf lifestyle and digital marketing for lifestyle brands",
+  coreIdea: "Marketing professionals and solopreneurs in the golf and lifestyle brand space can build better digital presence with the right creative direction and web fundamentals",
+  platforms: "LinkedIn, Instagram, X (Twitter)",
+  currentRevenue: "$0 freelance currently",
+  currentOffer: "Custom React/web builds + marketing content production for brands",
+  availableTime: "Evenings and weekends, roughly 10 to 15 hours per week",
+};
+
+const FIELD_LABELS = {
+  skills: "Your Skills",
+  interests: "Your Interests",
+  currentIncome: "Current Income Situation",
+  lifestyleGoals: "Lifestyle Goals",
+  targetCustomer: "Target Customer",
+  desiredIncome: "Desired Income",
+  niche: "Your Niche",
+  coreIdea: "Core Idea",
+  platforms: "Target Platforms",
+  currentRevenue: "Current Revenue",
+  currentOffer: "Current Offer",
+  availableTime: "Available Time",
+};
+
+function TypingText({ text }) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+  const idx = useRef(0);
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    setDisplayed("");
+    setDone(false);
+    idx.current = 0;
+    const tick = () => {
+      if (idx.current < text.length) {
+        setDisplayed(text.slice(0, idx.current + 1));
+        idx.current++;
+        timerRef.current = setTimeout(tick, 4);
+      } else {
+        setDone(true);
+      }
+    };
+    timerRef.current = setTimeout(tick, 100);
+    return () => clearTimeout(timerRef.current);
+  }, [text]);
+
+  return (
+    <span>
+      {displayed}
+      {!done && <span className="cursor">▋</span>}
+    </span>
+  );
+}
+
+function App() {
+  const [activePrompt, setActivePrompt] = useState(PROMPTS[0]);
+  const [profile, setProfile] = useState(DEFAULT_PROFILE);
+  const [editingProfile, setEditingProfile] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem("anthropic_key") || "");
+  const [showKeyInput, setShowKeyInput] = useState(false);
+  const outputRef = useRef(null);
+
+  const saveApiKey = (val) => {
+    setApiKey(val);
+    if (val) localStorage.setItem("anthropic_key", val);
+    else localStorage.removeItem("anthropic_key");
+  };
+
+  const runPrompt = async () => {
+    if (!apiKey) {
+      setShowKeyInput(true);
+      setError("Enter your Anthropic API key above to run an analysis.");
+      return;
+    }
+    setLoading(true);
+    setResult(null);
+    setError(null);
+
+    const contextLines = activePrompt.fields
+      .map((f) => `${FIELD_LABELS[f]}: ${profile[f]}`)
+      .join("\n");
+
+    const userMessage = `Here is my context:\n${contextLines}\n\nPlease now complete the full analysis as instructed.`;
+
+    try {
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": apiKey,
+          "anthropic-version": "2023-06-01",
+          "anthropic-dangerous-direct-browser-access": "true",
+        },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 1500,
+          system: `${activePrompt.role}\n\nYour task: ${activePrompt.task}\n\nSteps:\n${activePrompt.steps.map((s, i) => `${i + 1}. ${s}`).join("\n")}\n\nRules:\n${activePrompt.rules.map((r) => `- ${r}`).join("\n")}\n\nOutput format: ${activePrompt.output}\n\nBe specific, direct, and brutally honest. Format your response with clear section headers matching the output format. No fluff. No generic advice.`,
+          messages: [{ role: "user", content: userMessage }],
+        }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData?.error?.message || `HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      const text = data.content?.map((b) => b.text || "").join("") || "";
+      setResult(text);
+      setTimeout(() => outputRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+    } catch (err) {
+      setError(`Error: ${err.message}`);
+    }
+    setLoading(false);
+  };
+
+  const formatResult = (text) => {
+    return text.split("\n").map((line, i) => {
+      if (line.startsWith("## ") || line.startsWith("# ")) {
+        return <h3 key={i} style={{ color: "#D4A017", marginTop: "1.5rem", marginBottom: "0.5rem", fontSize: "1rem", letterSpacing: "0.05em", textTransform: "uppercase", fontFamily: "'Bebas Neue', sans-serif" }}>{line.replace(/^#+\s/, "")}</h3>;
+      }
+      if (line.startsWith("**") && line.endsWith("**")) {
+        return <p key={i} style={{ color: "#e8d5a3", fontWeight: 700, margin: "0.8rem 0 0.2rem" }}>{line.replace(/\*\*/g, "")}</p>;
+      }
+      if (line.startsWith("- ") || line.startsWith("• ")) {
+        return <p key={i} style={{ color: "#c8bfa8", paddingLeft: "1rem", margin: "0.2rem 0", borderLeft: "2px solid #4a3a1a" }}>{line.slice(2)}</p>;
+      }
+      if (line.trim() === "") return <br key={i} />;
+      return <p key={i} style={{ color: "#c8bfa8", lineHeight: 1.7, margin: "0.3rem 0" }}>{line}</p>;
+    });
+  };
+
+  return (
+    <div style={{
+      minHeight: "100vh",
+      background: "#0d0b07",
+      fontFamily: "'IBM Plex Mono', monospace",
+      color: "#e8d5a3",
+      padding: "2rem 1rem",
+    }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
+        .cursor { animation: blink 0.8s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0 } }
+        .tab-btn { cursor: pointer; background: transparent; border: 1px solid #2a2010; color: #6b5a3a; padding: 0.6rem 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; transition: all 0.2s; letter-spacing: 0.05em; }
+        .tab-btn:hover { border-color: #5a4010; color: #D4A017; }
+        .tab-btn.active { background: #1a1308; border-color: #D4A017; color: #D4A017; }
+        .run-btn { background: #D4A017; color: #0d0b07; border: none; padding: 0.8rem 2rem; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.15em; cursor: pointer; transition: all 0.15s; }
+        .run-btn:hover { background: #f0b920; transform: translateY(-1px); }
+        .run-btn:disabled { background: #3a2f10; color: #6b5a3a; cursor: not-allowed; transform: none; }
+        textarea { background: #0a0904; border: 1px solid #2a2010; color: #c8bfa8; padding: 0.6rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; resize: vertical; outline: none; width: 100%; box-sizing: border-box; line-height: 1.6; }
+        textarea:focus { border-color: #5a4010; }
+        .key-input { background: #0a0904; border: 1px solid #2a2010; color: #c8bfa8; padding: 0.5rem 0.8rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; outline: none; width: 100%; box-sizing: border-box; }
+        .key-input:focus { border-color: #5a4010; }
+        .edit-btn { background: transparent; border: 1px solid #3a2f10; color: #6b5a3a; padding: 0.4rem 0.8rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; cursor: pointer; letter-spacing: 0.05em; }
+        .edit-btn:hover { border-color: #D4A017; color: #D4A017; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0a0904; }
+        ::-webkit-scrollbar-thumb { background: #3a2f10; }
+      `}</style>
+
+      <div style={{ maxWidth: "780px", margin: "0 auto" }}>
+
+        {/* Header */}
+        <div style={{ marginBottom: "2.5rem" }}>
+          <p style={{ color: "#4a3a1a", fontSize: "0.7rem", letterSpacing: "0.2em", marginBottom: "0.3rem" }}>ONE-PERSON BUSINESS ENGINE</p>
+          <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2.2rem, 6vw, 3.5rem)", letterSpacing: "0.1em", color: "#D4A017", margin: 0, lineHeight: 1 }}>BUILD YOUR SOLO EMPIRE</h1>
+          <p style={{ color: "#5a4a2a", fontSize: "0.72rem", marginTop: "0.5rem", letterSpacing: "0.05em" }}>Powered by Dan Koe's framework — no team required</p>
+        </div>
+
+        {/* API Key section */}
+        <div style={{ background: "#0f0d08", border: "1px solid #1e1a0e", padding: "1.2rem", marginBottom: "1.5rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <p style={{ margin: 0, fontSize: "0.7rem", letterSpacing: "0.15em", color: "#5a4a2a" }}>
+              API KEY {apiKey ? <span style={{ color: "#4a7a3a" }}>● CONNECTED</span> : <span style={{ color: "#7a3a3a" }}>● NOT SET</span>}
+            </p>
+            <button className="edit-btn" onClick={() => setShowKeyInput(!showKeyInput)}>
+              {showKeyInput ? "HIDE" : (apiKey ? "CHANGE KEY" : "SET KEY")}
+            </button>
+          </div>
+          {showKeyInput && (
+            <div style={{ marginTop: "0.8rem" }}>
+              <label style={{ display: "block", fontSize: "0.65rem", color: "#4a3a1a", letterSpacing: "0.1em", marginBottom: "0.3rem" }}>ANTHROPIC API KEY (stored in localStorage)</label>
+              <input
+                className="key-input"
+                type="password"
+                placeholder="sk-ant-..."
+                value={apiKey}
+                onChange={(e) => saveApiKey(e.target.value)}
+              />
+              <p style={{ fontSize: "0.62rem", color: "#3a2f10", marginTop: "0.4rem" }}>Stored locally in your browser only. Never sent anywhere except Anthropic's API.</p>
+            </div>
+          )}
+        </div>
+
+        {/* Profile section */}
+        <div style={{ background: "#0f0d08", border: "1px solid #1e1a0e", padding: "1.2rem", marginBottom: "2rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: editingProfile ? "1rem" : 0 }}>
+            <p style={{ margin: 0, fontSize: "0.7rem", letterSpacing: "0.15em", color: "#5a4a2a" }}>YOUR PROFILE</p>
+            <button className="edit-btn" onClick={() => setEditingProfile(!editingProfile)}>
+              {editingProfile ? "CLOSE" : "EDIT PROFILE"}
+            </button>
+          </div>
+
+          {editingProfile && (
+            <div style={{ display: "grid", gap: "0.8rem" }}>
+              {Object.keys(DEFAULT_PROFILE).map((key) => (
+                <div key={key}>
+                  <label style={{ display: "block", fontSize: "0.65rem", color: "#4a3a1a", letterSpacing: "0.1em", marginBottom: "0.3rem" }}>
+                    {FIELD_LABELS[key]?.toUpperCase()}
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={profile[key]}
+                    onChange={(e) => setProfile({ ...profile, [key]: e.target.value })}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {!editingProfile && (
+            <div style={{ marginTop: "0.6rem", display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+              {["React dev", "Digital marketing", "Golf niche", "Lifestyle brands", "10-15 hrs/wk"].map((tag) => (
+                <span key={tag} style={{ background: "#1a1308", border: "1px solid #2a2010", color: "#6b5a3a", padding: "0.2rem 0.6rem", fontSize: "0.65rem", letterSpacing: "0.05em" }}>{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Prompt tabs */}
+        <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1.5rem", flexWrap: "wrap" }}>
+          {PROMPTS.map((p) => (
+            <button
+              key={p.id}
+              className={`tab-btn ${activePrompt.id === p.id ? "active" : ""}`}
+              onClick={() => { setActivePrompt(p); setResult(null); setError(null); }}
+            >
+              {p.icon} {p.label.toUpperCase()}
+            </button>
+          ))}
+        </div>
+
+        {/* Active prompt card */}
+        <div style={{ background: "#0f0d08", border: "1px solid #1e1a0e", padding: "1.5rem", marginBottom: "1.5rem" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem", marginBottom: "1.5rem" }}>
+            <span style={{ fontSize: "2rem" }}>{activePrompt.icon}</span>
+            <div>
+              <p style={{ margin: 0, fontSize: "0.65rem", color: "#4a3a1a", letterSpacing: "0.15em" }}>PROMPT {activePrompt.id}</p>
+              <h2 style={{ margin: "0.2rem 0 0", fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.6rem", letterSpacing: "0.1em", color: "#D4A017" }}>{activePrompt.label.toUpperCase()}</h2>
+            </div>
+          </div>
+
+          <div style={{ marginBottom: "1.2rem" }}>
+            <p style={{ fontSize: "0.65rem", color: "#4a3a1a", letterSpacing: "0.12em", marginBottom: "0.5rem" }}>WHAT THIS BUILDS</p>
+            <p style={{ fontSize: "0.8rem", color: "#8a7a5a", lineHeight: 1.6, margin: 0 }}>{activePrompt.task}</p>
+          </div>
+
+          <div style={{ marginBottom: "1.2rem" }}>
+            <p style={{ fontSize: "0.65rem", color: "#4a3a1a", letterSpacing: "0.12em", marginBottom: "0.5rem" }}>OUTPUT FORMAT</p>
+            <p style={{ fontSize: "0.75rem", color: "#D4A017", opacity: 0.7, margin: 0 }}>{activePrompt.output}</p>
+          </div>
+
+          <div style={{ borderTop: "1px solid #1e1a0e", paddingTop: "1.2rem" }}>
+            <p style={{ fontSize: "0.65rem", color: "#4a3a1a", letterSpacing: "0.12em", marginBottom: "0.8rem" }}>
+              USES FROM YOUR PROFILE: {activePrompt.fields.map(f => FIELD_LABELS[f]).join(", ")}
+            </p>
+            <button
+              className="run-btn"
+              onClick={runPrompt}
+              disabled={loading}
+            >
+              {loading ? "RUNNING ANALYSIS..." : `RUN PROMPT ${activePrompt.id} →`}
+            </button>
+          </div>
+        </div>
+
+        {/* Loading state */}
+        {loading && (
+          <div style={{ textAlign: "center", padding: "2rem", color: "#5a4a2a", fontSize: "0.75rem", letterSpacing: "0.1em" }}>
+            <div style={{ marginBottom: "0.5rem", fontSize: "1.5rem" }}>⚙️</div>
+            ANALYZING YOUR SKILL INTERSECTION...
+          </div>
+        )}
+
+        {/* Error */}
+        {error && (
+          <div style={{ background: "#1a0808", border: "1px solid #3a1010", padding: "1rem", color: "#8a4a4a", fontSize: "0.75rem" }}>
+            {error}
+          </div>
+        )}
+
+        {/* Result */}
+        {result && (
+          <div ref={outputRef} style={{ background: "#0f0d08", border: "1px solid #2a2010", padding: "1.5rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.8rem", marginBottom: "1.5rem", paddingBottom: "1rem", borderBottom: "1px solid #1e1a0e" }}>
+              <span style={{ fontSize: "1.2rem" }}>{activePrompt.icon}</span>
+              <p style={{ margin: 0, fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.1rem", letterSpacing: "0.1em", color: "#D4A017" }}>
+                {activePrompt.label.toUpperCase()} — ANALYSIS COMPLETE
+              </p>
+            </div>
+            <div style={{ fontSize: "0.82rem", lineHeight: 1.8 }}>
+              <TypingText text={result} />
+            </div>
+          </div>
+        )}
+
+        <p style={{ textAlign: "center", color: "#2a2010", fontSize: "0.6rem", marginTop: "3rem", letterSpacing: "0.1em" }}>
+          FRAMEWORK BY DAN KOE — POWERED BY CLAUDE
+        </p>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
